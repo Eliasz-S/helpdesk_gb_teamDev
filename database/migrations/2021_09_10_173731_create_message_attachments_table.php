@@ -15,7 +15,7 @@ class CreateMessageAttachmentsTable extends Migration
     {
         Schema::create('message_attachments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('messages_id');
+            $table->foreignId('messages_id')->constrained();
             $table->longText('file_name');
             $table->longText('path');
             $table->string('content_type',191);

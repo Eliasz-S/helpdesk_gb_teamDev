@@ -15,7 +15,7 @@ class CreateMessageTemplatesTable extends Migration
     {
         Schema::create('message_templates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->string('name',191);
             $table->string('subject',191);
             $table->longText('message');

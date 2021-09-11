@@ -15,8 +15,8 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id');
-            $table->foreignId('user_id');
+            $table->foreignId('ticket_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->enum('created_by', ['customer','staff']);
             $table->longText('message');
             $table->timestamp('staff_viewed_at')->nullable();

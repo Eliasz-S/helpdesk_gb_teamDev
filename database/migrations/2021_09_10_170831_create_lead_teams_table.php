@@ -15,8 +15,8 @@ class CreateLeadTeamsTable extends Migration
     {
         Schema::create('lead_teams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('team_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('team_id')->constrained();
             $table->timestamps();
         });
     }

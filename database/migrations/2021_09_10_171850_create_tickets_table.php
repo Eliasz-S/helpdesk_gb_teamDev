@@ -19,10 +19,10 @@ class CreateTicketsTable extends Migration
             $table->string('subject',191);
             $table->foreignId('status_id')->constrained('ticket_status');
             $table->foreignId('priority_id')->constrained('ticket_priority');
-            $table->foreignId('type_id');
+            $table->foreignId('type_id')->constrained('ticket_types');
             $table->foreignId('customer_id')->constrained('users');   //пользователь, от чьего имени поступила заявка
             $table->foreignId('staff_id')->constrained('users')->nullable();   //пользователь поддержки
-            $table->foreignId('team_id');
+            $table->foreignId('team_id')->constrained();
             $table->timestamps();
         });
     }
