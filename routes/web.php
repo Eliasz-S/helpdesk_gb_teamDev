@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +19,15 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+//profiles & backoffice
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/customer', [ProfileController::class, 'index'])
+        ->name('customer');
+    Route::get('/logout', function() {
+        \Auth::logout();
+        return redirect()->route('login');
+    })->name('logout');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
