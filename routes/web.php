@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Helpdesk\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('main');
 });
+
+Route::post('helpdesk/ticket', [TicketController::class, 'submit'])->name('create-ticket');
 
 Auth::routes();
 
@@ -29,5 +33,7 @@ Route::group(['middleware' => 'auth'], function() {
         return redirect()->route('login');
     })->name('logout');
 });
+
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
