@@ -19,6 +19,16 @@
             <h3> List of tickets</h3>
         </div><br>
 
+        <div>
+            @if(session()->has('success'))
+            <div class="alert alert-success">{{ session()->get('success') }}</div>
+            @endif
+
+            @if(session()->has('error'))
+            <div class="alert alert-warning">{{ session()->get('error') }}</div>
+            @endif
+        </div>
+
 
         <table class="table">
             <thead>

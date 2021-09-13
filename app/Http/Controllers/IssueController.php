@@ -16,12 +16,8 @@ class IssueController extends Controller
      */
     public function index()
     {
-        // $objIssue = new Issue();
-
-        // return $objIssue->all();
 
         $issues = Issue::all();
-
         return view('issue.index', [
             'issues' => $issues,
         ]);
@@ -49,12 +45,9 @@ class IssueController extends Controller
         $statusIssue = $issue->fill($data)->save();
 
         if ($statusIssue) {
-            return response()->json(['message' => 'Success']);
-            // return redirect()->route('tickets.index')->with('success', __('submitted successfully'));
-
+            return redirect()->route('issue.create')->with('success', __('Your request has been recorded successfully'));
         }
-        return response()->json(['message' => 'Error'], 400);
-        // return back()->with('error', __('error occured, please try latter'));
+        return back()->with('error', __('error occured, please try latter'));
     }
 
     /**
@@ -93,12 +86,10 @@ class IssueController extends Controller
         $statusIssue = $issue->fill($data)->save();
 
         if ($statusIssue) {
-            return response()->json(['message' => 'Success']);
-            // return redirect()->route('tickets.index')->with('success', __('submitted successfully'));
-
+            return redirect()->route('issue.index')->with('success', __('Issue #' . $issue->id . ' has been updated successfully'));
         }
-        return response()->json(['message' => 'Error'], 400);
-        // return back()->with('error', __('error occured, please try latter'));
+   
+        return back()->with('error', __('error occured, please try latter'));
 
     }
 
