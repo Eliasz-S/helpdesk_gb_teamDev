@@ -1,0 +1,20 @@
+{
+    "": "password\/confirm",
+    "users.index": "api\/users",
+    "users.create": "api\/users\/create",
+    "users.store": "api\/users",
+    "users.show": "api\/users\/{user}",
+    "users.edit": "api\/users\/{user}\/edit",
+    "users.update": "api\/users\/{user}",
+    "users.destroy": "api\/users\/{user}",
+    "login": "login",
+    "logout": "logout",
+    "register": "register",
+    "password.request": "password\/reset",
+    "password.email": "password\/email",
+    "password.reset": "password\/reset\/{token}",
+    "password.update": "password\/reset",
+    "password.confirm": "password\/confirm",
+    "customer": "customer",
+    "home": "home"
+}

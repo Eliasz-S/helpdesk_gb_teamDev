@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Helpdesk\TicketController;
 use App\Http\Controllers\IssueController;
@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/customer', [ProfileController::class, 'index'])
         ->name('customer');
     Route::get('/logout', function() {
-        \Auth::logout();
+        Auth::logout();
         return redirect()->route('login');
     })->name('logout');
 });

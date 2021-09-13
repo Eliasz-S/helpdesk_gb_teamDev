@@ -18,7 +18,7 @@ class AddColumnsInUsersTable extends Migration
             $table->string('last_name',191)->nullable();
             $table->longText('profile_image')->nullable();
             $table->boolean('is_enabled')->default(false);
-            $table->foreignId('user_role_id')->constrained('user_roles');
+            $table->foreignId('user_role_id')->nullable()->constrained('user_roles');
         });
     }
 
