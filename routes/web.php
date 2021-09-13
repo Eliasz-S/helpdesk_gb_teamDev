@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Helpdesk\TicketController;
+use App\Http\Controllers\IssueController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,8 @@ use App\Http\Controllers\Helpdesk\TicketController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::resource('issue', IssueController::class);
 
 Route::get('/', function () {
     return view('main');
