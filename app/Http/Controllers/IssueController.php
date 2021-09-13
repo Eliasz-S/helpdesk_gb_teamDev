@@ -6,6 +6,8 @@ use App\Models\Issue;
 use Illuminate\Http\Request;
 use App\Http\Requests\IssueStore;
 use App\Http\Requests\IssueUpdate;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\IssueNotification;
 
 class IssueController extends Controller
 {
@@ -45,9 +47,23 @@ class IssueController extends Controller
         $statusIssue = $issue->fill($data)->save();
 
         if ($statusIssue) {
-            return redirect()->route('issue.create')->with('success', __('Your request has been recorded successfully'));
+ 
+            $this->sendNotification($issue);
+            return redirect()->route('issue.create')
+                ->with('success', __('Your request has been recorded successfully'));
         }
         return back()->with('error', __('error occured, please try latter'));
+    }
+
+    public function sendNotification(Issue $issue){
+
+        $notificationData = [
+            'body' => 'Please be informed that an new ticket regarding your request has been recorded. Tracking number: ' . $issue->id,
+            'text' =>  'See the full info',
+            'url' => url('/')
+        ];
+  
+         Notification::send($issue, new IssueNotification($notificationData));
     }
 
     /**
@@ -88,9 +104,8 @@ class IssueController extends Controller
         if ($statusIssue) {
             return redirect()->route('issue.index')->with('success', __('Issue #' . $issue->id . ' has been updated successfully'));
         }
-   
-        return back()->with('error', __('error occured, please try latter'));
 
+        return back()->with('error', __('error occured, please try latter'));
     }
 
     /**
