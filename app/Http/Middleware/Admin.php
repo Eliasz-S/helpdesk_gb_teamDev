@@ -17,9 +17,8 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user()
-            ->with('userRole')
-            ->first();
+        $user = \Auth::user()
+            ->load('userRole');
 
         if ($user->userRole->code !== 'ROLE_ADMIN') {
             abort(404);

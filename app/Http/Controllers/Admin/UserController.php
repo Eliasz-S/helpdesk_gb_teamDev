@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,10 +15,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        // $users = User::all();
         
-        return response()->json([
-            'users' => $users->toArray()
+        // return response()->json([
+        //     'users' => $users->toArray()
+        // ]);
+
+        $users = User::with('userRole')
+            ->get();
+
+        $currentUser = \Auth::user()->id;
+
+        return view('admin.users.index', [
+            'userList' => $users,
+            'currentUser' => $currentUser
         ]);
     }
 
