@@ -26,7 +26,8 @@ class TicketCreate extends FormRequest
         return [
             'name' => ['required', 'string', 'min:3', 'max:191'],
             'email' => ['required', 'string', 'email'],
-            'type_id' => ['required', 'integer', 'min:1'],
+            'type_id' => ['required'],
+            'priority_id' => ['required'],
             'subject' => ['required', 'string', 'min:3', 'max:191'],
             'message' => ['required', 'string', 'min:3'],
         ];
@@ -37,7 +38,6 @@ class TicketCreate extends FormRequest
         return [
             'name.required' => 'Поле Имя является обязательным',
             'email.required' => 'Поле Email является обязательным',
-            'type_id.required' => 'Поле Категория является обязательным',
             'subject.required' => 'Поле Тема является обязательным',
             'message.required' => 'Поле Сообщение является обязательным',
         ];
