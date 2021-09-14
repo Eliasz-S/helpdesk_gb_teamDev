@@ -3,6 +3,8 @@
 <a href="{{ url('/') }}">На главную</a>
 <br>
 @if ($userRole === 'ROLE_ADMIN')
+    <a href="{{ route('admin.tickets.index') }}">Список тикетов</a>
+    <br>
     <a href="{{ route('admin.users.index') }}">Список пользователей</a>
     <br>
 @endif
