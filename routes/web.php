@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,17 +27,18 @@ Route::post('ticket/create', [TicketController::class, 'submit'])->name('create-
 Auth::routes();
 
 //profiles & backoffice
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/customer', [ProfileController::class, 'index'])
         ->name('customer');
-    Route::get('/logout', function() {
+    Route::get('/logout', function () {
         Auth::logout();
         return redirect()->route('login');
     })->name('logout');
 
     //admin
-    Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function() {
+    Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('users', UserController::class);
+        Route::resource('tickets', AdminTicketController::class);
     });
 });
 

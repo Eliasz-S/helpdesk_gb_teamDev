@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         // $users = User::all();
-        
+
         // return response()->json([
         //     'users' => $users->toArray()
         // ]);
@@ -24,11 +24,9 @@ class UserController extends Controller
         $users = User::with('userRole')
             ->get();
 
-        $currentUser = \Auth::user()->id;
 
         return view('admin.users.index', [
-            'userList' => $users,
-            'currentUser' => $currentUser
+            'userList' => $users
         ]);
     }
 
