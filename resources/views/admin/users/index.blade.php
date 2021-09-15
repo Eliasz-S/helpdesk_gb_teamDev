@@ -12,10 +12,18 @@
 <body>
     
     <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table me-1"></i>
-            Список пользователей
+        <div class="container mt-4 mb-2">
+            <div class="row mt-4">
+                <div class="col-sm">
+                    <i class="fas fa-table me-1"></i>
+                    <h6>Users list</h6>
+                </div>
+                <div class="col-sm">
+                    <a href="#" class="btn btn-success float-right">New user+</a>
+                </div>
+            </div>
         </div>
+        
         <div class="card-body">
             <table class="table">
                 <thead>

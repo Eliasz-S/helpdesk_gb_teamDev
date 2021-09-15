@@ -10,7 +10,7 @@ class ProfileController extends Controller
     {
         $user = \Auth::user()->load('userRole');
 
-        return view('profile.index', [
+        return view('admin.profile.index', [
             'userRole' => $user->userRole->code
         ]);
     }
