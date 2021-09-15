@@ -14,3 +14,4 @@ yarn-error.log
 /.idea
 /.vscode
 vetur.config.js
+docker-compose.yml

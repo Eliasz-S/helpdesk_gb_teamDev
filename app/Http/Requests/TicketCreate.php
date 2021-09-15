@@ -27,7 +27,7 @@ class TicketCreate extends FormRequest
             'name' => ['required', 'string', 'min:3', 'max:191'],
             'email' => ['required', 'string', 'email'],
             'type_id' => ['required'],
-            'priority_id' => ['required'],
+            'priority_id' => ['sometimes'],
             'subject' => ['required', 'string', 'min:3', 'max:191'],
             'message' => ['required', 'string', 'min:3'],
         ];

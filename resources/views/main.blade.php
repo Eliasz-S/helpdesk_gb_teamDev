@@ -256,7 +256,7 @@
                 <div class="col-lg-6">
                     <fieldset>
                     <select name="type_id" class="form-control" id="type" required>
-                        <option selected>Категория заявки</option>
+                        <option value>Категория заявки</option>
                         @foreach($types as $type)
                             <option value="{{ $type->id }}" @if(old('type_id') === $type->id) selected @endif>
                                 {{ $type->code }}
