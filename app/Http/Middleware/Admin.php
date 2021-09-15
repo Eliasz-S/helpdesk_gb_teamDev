@@ -17,10 +17,12 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = \Auth::user()
+        $user = Auth::user()
             ->load('userRole');
 
-        if ($user->userRole->code !== 'ROLE_ADMIN') {
+        $role = optional($user->userRole)->code;
+
+        if ($role !== 'ROLE_ADMIN' && $role !== 'ROLE_SUPER_ADMIN') {
             abort(404);
         }
 
