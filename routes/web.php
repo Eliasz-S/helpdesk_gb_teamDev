@@ -4,8 +4,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Helpdesk\TicketController;
-use App\Http\Controllers\IssueController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\MainPageController;
 
 
 /*
@@ -19,13 +19,9 @@ use App\Http\Controllers\IssueController;
 |
 */
 
-Route::resource('issue', IssueController::class);
+Route::get('/', [MainPageController::class, 'index'])->name('main');
 
-Route::get('/', function () {
-    return view('main');
-});
-
-Route::post('helpdesk/ticket', [TicketController::class, 'submit'])->name('create-ticket');
+Route::post('ticket/create', [TicketController::class, 'submit'])->name('create-ticket');
 
 Auth::routes();
 
@@ -43,7 +39,5 @@ Route::group(['middleware' => 'auth'], function() {
         Route::resource('users', UserController::class);
     });
 });
-
-
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

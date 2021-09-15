@@ -241,13 +241,7 @@
             <div class="col-lg-9">
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="col-lg-6">
-                    @if($errors->any())
-                      @foreach($errors->all() as $error)
-                          <p class="alert alert-danger">{{ $error }}</p>
-                      @endforeach
-                    @endif
-                </div>
+                    @include('inc.messages')
                 </div>
                 <div class="col-lg-6">
                   <fieldset>
@@ -261,23 +255,24 @@
                 </div>
                 <div class="col-lg-6">
                     <fieldset>
-                    <select name="type_id" class="form-control" id="type">
-                        {{--TODO: брать данные из таблицы --}}
-                        <option selected>Категория</option>
-                        <option value="3">Customization</option>
-                        <option value="2">Query</option>
-                        <option value="1">support</option>
+                    <select name="type_id" class="form-control" id="type" required>
+                        <option selected>Категория заявки</option>
+                        @foreach($types as $type)
+                            <option value="{{ $type->id }}" @if(old('type_id') === $type->id) selected @endif>
+                                {{ $type->code }}
+                            </option>
+                        @endforeach
                     </select>
-                </fieldset>
+                    </fieldset>
                 </div>
                 <div class="col-lg-6">
                   <fieldset>
-                    <input type="subject" name="subject" id="subject" placeholder="Subject" value="{{ old('subject') }}">
+                    <input type="subject" name="subject" id="subject" placeholder="Тема сообщения" value="" required>
                   </fieldset>
                 </div>
                 <div class="col-lg-12">
                   <fieldset>
-                    <textarea name="message" type="text" class="form-control" id="message" placeholder="Message" required="">{{ old('message') }}</textarea>  
+                    <textarea name="message" type="text" class="form-control" id="message" placeholder="Текст сообщения" required=""></textarea>
                   </fieldset>
                 </div>
                   {{--            <div class="form-group attachment-block no-error-success-icon" id="attachment-option">--}}
@@ -327,8 +322,8 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <p>Copyright © {{ date('Y') }}. All Rights Reserved. 
-        
+        <p>Copyright © {{ date('Y') }}. All Rights Reserved.
+
         <br>Web Designed by GeekBrains students</p>
       </div>
     </div>

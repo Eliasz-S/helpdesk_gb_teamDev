@@ -40,6 +40,8 @@ class TicketCreate extends FormRequest
             'type_id.required' => 'Поле Категория является обязательным',
             'subject.required' => 'Поле Тема является обязательным',
             'message.required' => 'Поле Сообщение является обязательным',
+
+            'type_id.integer' => 'Не выбрана категория заявки!',
         ];
     }
 }
