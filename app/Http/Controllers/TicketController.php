@@ -50,6 +50,7 @@ class TicketController extends Controller
         $ticket->type_id = $data['type_id'];
         $ticket->subject = $data['subject'];
         $ticket->priority_id = 1;
+        $ticket->status_id = 1;
 
         if ($ticket->save()) {
             $message = new Message();
