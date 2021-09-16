@@ -34,6 +34,8 @@ Route::group(['middleware' => 'auth'], function () {
         Auth::logout();
         return redirect()->route('login');
     })->name('logout');
+    Route::get('/account', [ProfileController::class, 'account'])
+        ->name('account');
 
     //admin
     Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {

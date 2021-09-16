@@ -10,21 +10,21 @@ use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
-//    public function index()
-//    {
-//
-//        $tickets = Ticket::orderBy('id','desc')->paginate(3);
-//        return view('manager.tickets.index', [
-//            'tickets' => $tickets
-//        ]);
-//    }
+    //    public function index()
+    //    {
+    //
+    //        $tickets = Ticket::orderBy('id','desc')->paginate(3);
+    //        return view('manager.tickets.index', [
+    //            'tickets' => $tickets
+    //        ]);
+    //    }
 
-     /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
-      */
+     */
     public function submit(TicketCreate $request)
     {
         $data = $request->validated();
@@ -49,6 +49,7 @@ class TicketController extends Controller
         $ticket->customer_id = $user->id;
         $ticket->type_id = $data['type_id'];
         $ticket->subject = $data['subject'];
+        $ticket->priority_id = 1;
 
         if ($ticket->save()) {
             $message = new Message();
@@ -62,7 +63,7 @@ class TicketController extends Controller
         }
 
         if (!empty($statusSave)) {
-            return redirect()->route('main',['#contact'])
+            return redirect()->route('main', ['#contact'])
                 ->with('success', __('Заявка успешно добавлена'));
         }
         return back()->with('error', __('Ой! Что-то пошло не так'));

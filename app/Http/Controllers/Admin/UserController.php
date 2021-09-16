@@ -22,6 +22,7 @@ class UserController extends Controller
         // ]);
 
         $users = User::with('userRole')
+            ->orderBy('id', 'desc')
             ->get();
 
 
