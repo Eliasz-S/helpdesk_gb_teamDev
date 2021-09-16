@@ -5795,6 +5795,7 @@ a.nav-link:hover .icon > i {
 }
 
 .badge {
+    min-width: 80px;
     display: inline-block;
     padding: 0.55em 0.9em;
     font-size: 0.75em;
