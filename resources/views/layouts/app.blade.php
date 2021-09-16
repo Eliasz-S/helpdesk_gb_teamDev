@@ -66,7 +66,7 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                           <a 
                             class="dropdown-item" 
-                            href="{{ route('customer') }}"
+                            href="{{ route('account') }}"
                             onclick="
                                 event.preventDefault();
                                 document.getElementById('profile-form').submit();
@@ -85,7 +85,7 @@
                             {{ __('Выход') }}
                           </a>
                           
-                          <form id="profile-form" action="{{ route('customer') }}" method="POST" class="d-none">
+                          <form id="profile-form" action="{{ route('account') }}" method="POST" class="d-none">
                               @csrf
                               @method('get')
                           </form>
