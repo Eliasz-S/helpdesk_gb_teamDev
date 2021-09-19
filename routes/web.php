@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\MainPageController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +20,6 @@ use App\Http\Controllers\MainPageController;
 */
 
 Route::get('/', [MainPageController::class, 'index'])->name('main');
-
 Route::post('ticket/create', [TicketController::class, 'submit'])->name('create-ticket');
 
 Auth::routes();
@@ -44,4 +42,6 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::resource('issue', IssueController::class);
+Route::get('wl', function () {return view('welcome');});
