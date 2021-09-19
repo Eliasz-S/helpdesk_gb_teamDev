@@ -1,6 +1,5 @@
 <template>
-    <h1>This is Vue !</h1>
-<!--    <router-view></router-view>-->
+    <router-view></router-view>
 </template>
 
 <script>

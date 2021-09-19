@@ -1,6 +1,7 @@
 // require('./bootstrap');
 
-window.Vue = require('vue');
+// window.Vue = require('vue');
+import Vue from 'vue';
 
 import VueRouter from 'vue-router';
 import router from './router';
@@ -9,7 +10,6 @@ import App from './components/App';
 // будут перенесены в определенные компоненты
 import route from './route.js';
 import Lang from './lang';
-// import Vue from 'vue';
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
@@ -21,4 +21,4 @@ const app = new Vue({
     router
 });
 
-console.log(route('login'));
+// console.log(route('login'));

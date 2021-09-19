@@ -6,7 +6,7 @@ export default new VueRouter({
     // передаем литерал объекта
     routes : [
         {
-            path: '/home',
+            path: '/wl',
             component: Users
         }
     ],
