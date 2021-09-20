@@ -28,10 +28,12 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/customer', [ProfileController::class, 'index'])
         ->name('customer');
+
     Route::get('/logout', function () {
         Auth::logout();
         return redirect()->route('login');
     })->name('logout');
+
     Route::get('/account', [ProfileController::class, 'account'])
         ->name('account');
 

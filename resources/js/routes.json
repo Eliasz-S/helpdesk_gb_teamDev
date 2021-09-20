@@ -1,5 +1,5 @@
 {
-    "": "password\/confirm",
+    "": "wl",
     "users.index": "api\/users",
     "users.create": "api\/users\/create",
     "users.store": "api\/users",
@@ -7,6 +7,8 @@
     "users.edit": "api\/users\/{user}\/edit",
     "users.update": "api\/users\/{user}",
     "users.destroy": "api\/users\/{user}",
+    "main": "\/",
+    "create-ticket": "ticket\/create",
     "login": "login",
     "logout": "logout",
     "register": "register",
@@ -16,5 +18,19 @@
     "password.update": "password\/reset",
     "password.confirm": "password\/confirm",
     "customer": "customer",
-    "home": "home"
+    "account": "account",
+    "admin.users.index": "admin\/users",
+    "admin.users.create": "admin\/users\/create",
+    "admin.users.store": "admin\/users",
+    "admin.users.show": "admin\/users\/{user}",
+    "admin.users.edit": "admin\/users\/{user}\/edit",
+    "admin.users.update": "admin\/users\/{user}",
+    "admin.users.destroy": "admin\/users\/{user}",
+    "admin.tickets.index": "admin\/tickets",
+    "admin.tickets.create": "admin\/tickets\/create",
+    "admin.tickets.store": "admin\/tickets",
+    "admin.tickets.show": "admin\/tickets\/{ticket}",
+    "admin.tickets.edit": "admin\/tickets\/{ticket}\/edit",
+    "admin.tickets.update": "admin\/tickets\/{ticket}",
+    "admin.tickets.destroy": "admin\/tickets\/{ticket}"
 }

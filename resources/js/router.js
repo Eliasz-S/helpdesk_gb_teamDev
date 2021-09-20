@@ -8,7 +8,8 @@ export default new VueRouter({
         {
             path: '/wl',
             component: Users
-        }
+        },
+
     ],
     // в историю записываются перемещения при переходах
     mode: 'history'

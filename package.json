@@ -28,6 +28,7 @@
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {
+        "buefy": "^0.9.10",
         "webpack": "^5.53.0"
     }
 }

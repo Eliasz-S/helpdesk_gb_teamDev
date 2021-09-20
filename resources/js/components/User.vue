@@ -1,53 +1,63 @@
 <template>
-    <div class="flex-center position-ref full-height">
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">Articles</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-            <ul>
-                <!-- <li v-for="user in users">{{user}}</li> -->
-            </ul>
-        </div>
+    <b-table :data="data" :columns="columns"></b-table>
 </template>
 
-
 <script>
-import axios from 'axios';
-import r from '../route';
+import axios from 'axios'
+import route from '../route'
 
-    export default {
-        data () {
-            return {
-                users: []
+export default {
+    data() {
+        return {
+            data: [
+                { 'id': 1, 'first_name': 'Jesse', 'last_name': 'Simmons', 'date': '2016-10-15 13:43:27', 'gender': 'Male' },
+                { 'id': 2, 'first_name': 'John', 'last_name': 'Jacobs', 'date': '2016-12-15 06:00:53', 'gender': 'Male' },
+                { 'id': 3, 'first_name': 'Tina', 'last_name': 'Gilbert', 'date': '2016-04-26 06:26:28', 'gender': 'Female' },
+                { 'id': 4, 'first_name': 'Clarence', 'last_name': 'Flores', 'date': '2016-04-10 10:28:46', 'gender': 'Male' },
+                { 'id': 5, 'first_name': 'Anne', 'last_name': 'Lee', 'date': '2016-12-06 14:38:38', 'gender': 'Female' }
+            ],
+            columns: [
+                {
+                    field: 'id',
+                    label: 'ID',
+                    width: '40',
+                    numeric: true
+                },
+                {
+                    field: 'first_name',
+                    label: 'First Name',
+                },
+                {
+                    field: 'last_name',
+                    label: 'Last Name',
+                },
+                {
+                    field: 'date',
+                    label: 'Date',
+                    centered: true
+                },
+                {
+                    field: 'gender',
+                    label: 'Gender',
+                }
+            ],
+            computed: {
+                cUsers : function () {
+                    return this.users
+                }
+            },
+            methods: {
+                getUsers () {
+                    axios.get(route("users.index"))
+                        .then((response) => {
+                            this.users = response.data.users
+                        })
+                }
+            },
+            mounted() {
+                // this.getUsers()
             }
-        },
-        computed: {
-            cUsers : function () {
-                return this.users;
-            }
-        },
-        methods: {
-            getUsers () {
-                axios.get(r("users.index"))
-                .then((response) => {
-                    this.users = response.data.users
-                });
-                ;
-
-            }
-        },
-        mounted() {
-            this.getUsers();
         }
     }
+}
 </script>
