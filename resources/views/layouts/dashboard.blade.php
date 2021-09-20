@@ -14,7 +14,6 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ asset('admin/css/styles.css') }}" rel="stylesheet" />
 </head>
-
 <body class="g-sidenav-show  bg-gray-100">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
@@ -42,6 +41,7 @@
             <span class="nav-link-text ms-1">My tickets</span>
           </a>
         </li>
+        @if ($userRole === 'ROLE_ADMIN')
         <li class="nav-item mt-3">
             <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Admin panel</h6>
           </li>
@@ -61,6 +61,7 @@
               <span class="nav-link-text ms-1">Users</span>
             </a>
           </li>
+        @endif
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account</h6>
         </li>

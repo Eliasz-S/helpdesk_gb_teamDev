@@ -17,6 +17,12 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getUserRole()
+    {
+        $userRole = \Auth::user()->load('userRole')->userRole->code;
+        return $userRole;
+    }
     public function index()
     {
         $tickets = Ticket::join('users', 'tickets.customer_id', '=', 'users.id')
@@ -27,7 +33,8 @@ class TicketController extends Controller
             ->get();
 
         return view('admin.tickets.index', [
-            'ticketsList' => $tickets
+            'ticketsList' => $tickets,
+            'userRole' => $this->getUserRole()
         ]);
     }
 
@@ -38,7 +45,9 @@ class TicketController extends Controller
      */
     public function create()
     {
-        return view('admin.tickets.create');
+        return view('admin.tickets.create', [
+            'userRole' => $this->getUserRole()
+        ]);
     }
 
     /**

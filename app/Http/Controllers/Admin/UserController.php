@@ -13,6 +13,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getUserRole()
+    {
+        $userRole = \Auth::user()->load('userRole')->userRole->code;
+        return $userRole;
+    }
     public function index()
     {
         // $users = User::all();
@@ -27,7 +33,8 @@ class UserController extends Controller
 
 
         return view('admin.users.index', [
-            'userList' => $users
+            'userList' => $users,
+            'userRole' => $this->getUserRole()
         ]);
     }
 

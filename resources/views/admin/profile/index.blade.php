@@ -1,4 +1,4 @@
-@extends('layouts.dashboard-profile')
+@extends('layouts.dashboard')
 @section('title')Dashboard | @parent @stop
 @section('breadcrumbs-1')Dashboard @stop
 @section('breadcrumbs-2')@stop

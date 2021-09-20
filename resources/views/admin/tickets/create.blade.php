@@ -1,4 +1,4 @@
-@extends('layouts.dashboard-admin')
+@extends('layouts.dashboard')
 @section('title')Tickets @parent @stop
 @section('breadcrumbs-1')Admin @stop
 @section('breadcrumbs-2')New ticket @stop
