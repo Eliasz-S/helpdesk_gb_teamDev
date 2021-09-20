@@ -1,11 +1,6 @@
 <template>
-    <router-view></router-view>
+    <div class="container">
+        <tickets />
+    </div>
 </template>
 
-<script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
-    }
-</script>

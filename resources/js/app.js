@@ -9,6 +9,9 @@ import 'buefy/dist/buefy.css'
 import VueRouter from 'vue-router'
 import router from './router'
 import App from './components/App'
+import Tickets from './components/pages/tickets/Index'
+
+Vue.component('tickets', Tickets);
 
 // будут перенесены в определенные компоненты
 import route from './route.js'

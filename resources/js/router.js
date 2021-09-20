@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router';
 import Users from './components/User';
+import Tickets from './components/pages/tickets/Index';
 
 
 export default new VueRouter({
@@ -8,6 +9,10 @@ export default new VueRouter({
         {
             path: '/wl',
             component: Users
+        },
+        {
+            path: '/admin/tickets',
+            component: Tickets
         },
 
     ],

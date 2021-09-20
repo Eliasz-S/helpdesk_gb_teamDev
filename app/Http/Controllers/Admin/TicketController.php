@@ -25,15 +25,7 @@ class TicketController extends Controller
     }
     public function index()
     {
-        $tickets = Ticket::join('users', 'tickets.customer_id', '=', 'users.id')
-            ->join('ticket_status', 'tickets.status_id', '=', 'ticket_status.id')
-            ->join('ticket_priority', 'tickets.priority_id', '=', 'ticket_priority.id')
-            ->select('tickets.id', 'tickets.subject', 'users.name', 'users.email', 'ticket_status.description', 'ticket_priority.description as priority', 'tickets.created_at')
-            ->orderBy('id', 'desc')
-            ->get();
-
         return view('admin.tickets.index', [
-            'ticketsList' => $tickets,
             'userRole' => $this->getUserRole()
         ]);
     }

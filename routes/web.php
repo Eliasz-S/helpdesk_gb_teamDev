@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
+use App\Http\Controllers\API\TicketController as APITicketController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -40,10 +41,12 @@ Route::group(['middleware' => 'auth'], function () {
     //admin
     Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('users', UserController::class);
-        Route::resource('tickets', AdminTicketController::class);
+        Route::apiResource('tickets', AdminTicketController::class);
     });
 });
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::resource('issue', IssueController::class);
-Route::get('wl', function () {return view('welcome');});
+Route::get('wl', function () {
+    return view('welcome');
+});
