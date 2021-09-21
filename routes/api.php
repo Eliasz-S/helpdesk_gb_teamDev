@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\TicketController;
+use App\Http\Controllers\API\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::middleware('auth:api')->resource('users', 'UserController');
 Route::resource('users', 'UserController');
 Route::apiResource('tickets', TicketController::class);
+Route::apiResource('users', UserController::class);

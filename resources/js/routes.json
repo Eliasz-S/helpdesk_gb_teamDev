@@ -7,6 +7,11 @@
     "users.edit": "api\/users\/{user}\/edit",
     "users.update": "api\/users\/{user}",
     "users.destroy": "api\/users\/{user}",
+    "tickets.index": "api\/tickets",
+    "tickets.store": "api\/tickets",
+    "tickets.show": "api\/tickets\/{ticket}",
+    "tickets.update": "api\/tickets\/{ticket}",
+    "tickets.destroy": "api\/tickets\/{ticket}",
     "main": "\/",
     "create-ticket": "ticket\/create",
     "login": "login",
@@ -27,10 +32,8 @@
     "admin.users.update": "admin\/users\/{user}",
     "admin.users.destroy": "admin\/users\/{user}",
     "admin.tickets.index": "admin\/tickets",
-    "admin.tickets.create": "admin\/tickets\/create",
     "admin.tickets.store": "admin\/tickets",
     "admin.tickets.show": "admin\/tickets\/{ticket}",
-    "admin.tickets.edit": "admin\/tickets\/{ticket}\/edit",
     "admin.tickets.update": "admin\/tickets\/{ticket}",
     "admin.tickets.destroy": "admin\/tickets\/{ticket}"
 }

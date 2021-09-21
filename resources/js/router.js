@@ -1,6 +1,7 @@
 import VueRouter from 'vue-router';
-import Users from './components/User';
+import Test from './components/User';
 import Tickets from './components/pages/tickets/Index';
+import Users from './components/pages/users/Index'
 
 
 export default new VueRouter({
@@ -8,12 +9,16 @@ export default new VueRouter({
     routes : [
         {
             path: '/wl',
-            component: Users
+            component: Test
         },
         {
             path: '/admin/tickets',
             component: Tickets
         },
+        {
+            path: '/admin/users',
+            component: Users
+        }
 
     ],
     // в историю записываются перемещения при переходах
