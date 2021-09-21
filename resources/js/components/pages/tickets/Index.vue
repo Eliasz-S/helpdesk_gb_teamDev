@@ -47,7 +47,7 @@
                     <span class="badge badge-sm bg-gradient-primary w-80">{{ ticket.priority }}</span>
                   </td>
                   <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">{{ ticket.created_at }}</span>
+                    <span class="text-secondary text-xs font-weight-bold">{{ ticket.created_at | dateFormat}}</span>
                   </td>
                   <td class="align-middle">
                     <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
@@ -72,6 +72,7 @@
 import axios from 'axios'
 import route from '../../../route'
 
+var moment = require('moment')
 
 export default {
     data() {
@@ -95,6 +96,13 @@ export default {
     },
     mounted() {
         this.getTickets()
+    },
+    filters: {
+        dateFormat:
+            function(value) 
+            {
+                return moment(value).format('LLL');
+            }
     },
     methods: {
         getTickets() {

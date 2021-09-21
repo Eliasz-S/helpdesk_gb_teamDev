@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "buefy": "^0.9.10",
+        "moment": "^2.29.1",
         "webpack": "^5.53.0"
     }
 }
