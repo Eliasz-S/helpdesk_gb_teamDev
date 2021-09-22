@@ -33,16 +33,18 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
+        @if ($userRole === 'ROLE_CUSTOMER')
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link @if(request()->routeIs('admin.tickets.index')) active @endif" href="{{ route('admin.tickets.index') }}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="fa fa-table opacity-10 text-primary"></i>
             </div>
             <span class="nav-link-text ms-1">My tickets</span>
           </a>
         </li>
-        @if ($userRole === 'ROLE_ADMIN')
-        <li class="nav-item mt-3">
+        @endif
+        @if ($userRole === 'ROLE_ADMIN' | $userRole === 'ROLE_SUPER_ADMIN')
+          <li class="nav-item mt-3">
             <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Admin panel</h6>
           </li>
           <li class="nav-item">

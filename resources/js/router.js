@@ -8,8 +8,8 @@ export default new VueRouter({
     // передаем литерал объекта
     routes : [
         {
-            path: '/wl',
-            component: Test
+            path: '/my-tickets',
+            component: Tickets
         },
         {
             path: '/admin/tickets',

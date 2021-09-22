@@ -21,7 +21,7 @@ class TicketController extends Controller
             ->select('tickets.id', 'tickets.subject', 'users.name', 'users.email', 'ticket_status.description', 'ticket_priority.description as priority', 'tickets.created_at')
             ->orderBy('id', 'desc')
             ->latest()
-            ->paginate(5);
+            ->paginate(15);
     }
 
     /**
