@@ -125,97 +125,15 @@
 
         </b-table>
     </div>
-    <section>
-        <!-- <b-button
-            label="Launch component modal"
-            type="is-primary"
-            size="is-medium"
-            @click="isComponentModalActive = true" /> -->
-
-        <b-modal
-            v-model="isComponentModalActive"
-            has-modal-card
-            trap-focus
-            :destroy-on-hide="false"
-            aria-role="dialog"
-            aria-label="Example Modal"
-            aria-modal>
-            <template #default="props">
-                <modal-form v-bind="formProps" @close="props.close"></modal-form>
-            </template>
-        </b-modal>
-    </section>
+    <Edit />
 </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Edit from '../../pages/users/Edit.vue'
 
 var moment = require('moment')
-
-const ModalForm = {
-    props: ['email', 'password', 'canCancel'],
-    template: `
-        <form action="">
-            <div class="modal-card" style="width: auto">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Edit user data</p>
-                    <button
-                        type="button"
-                        class="delete"
-                        @click="$emit('close')"/>
-                </header>
-                <section class="modal-card-body">
-                    <b-field label="Login">
-                        <b-input
-                            type="text"
-                            :value="email"
-                            placeholder="{{ user.name }}"
-                            required>
-                        </b-input>
-                    </b-field>
-
-                    <b-field label="First Name">
-                        <b-input
-                            type="text"
-                            :value="email"
-                            placeholder="Your email"
-                            required>
-                        </b-input>
-                    </b-field>
-
-                    <b-field label="Last Name">
-                        <b-input
-                            type="text"
-                            :value="email"
-                            placeholder="Your email"
-                            required>
-                        </b-input>
-                    </b-field>
-
-                    <b-field label="Role">
-                        <b-input
-                            type="text"
-                            :value="password"
-                            password-reveal
-                            placeholder="Your password"
-                            required>
-                        </b-input>
-                    </b-field>
-
-                </section>
-                <footer class="modal-card-foot">
-                    <b-button
-                        label="Close"
-                        @click="$emit('close')" />
-                    <b-button
-                        label="Save"
-                        type="is-primary" />
-                </footer>
-            </div>
-        </form>
-    `
-}
 
 export default {
     data() {
@@ -233,11 +151,6 @@ export default {
             sortIconSize: 'is-small',
             currentPage: 1,
             perPage: 5,
-            isComponentModalActive: false,
-            formProps: {
-                email: 'evan@you.com',
-                password: 'testing'
-            },
             user: {
                 id: '',
                 name: '',
@@ -274,7 +187,7 @@ export default {
         }
     },
     components: {
-        ModalForm
+        Edit
     }
 }
 </script>
