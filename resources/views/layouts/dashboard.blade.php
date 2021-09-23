@@ -19,7 +19,7 @@
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href="{{ route('account') }}">
+      <a class="navbar-brand m-0" @unless(request()->routeIs('account')) href="{{ route('account') }}" @endunless >
         <span class="ms-1 font-weight-bold">Welcome, {{ Auth::user()->name }}</span>
       </a>
     </div>
@@ -36,7 +36,7 @@
         </li>
         @if ($userRole === 'ROLE_CUSTOMER')
         <li class="nav-item">
-          <a class="nav-link @if(request()->routeIs('my-tickets')) active @endif" href="/my-tickets">
+          <a class="nav-link @if(request()->routeIs('my-tickets')) active @endif" @unless(request()->routeIs('my-tickets')) href="/my-tickets" @endunless >
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="fa fa-table opacity-10 text-primary"></i>
             </div>
@@ -49,7 +49,7 @@
             <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Admin panel</h6>
           </li>
           <li class="nav-item">
-            <a class="nav-link @if(request()->routeIs('admin.tickets.index')) active @endif" href="{{ route('admin.tickets.index') }}">
+            <a class="nav-link @if(request()->routeIs('admin.tickets.index')) active @endif" @unless(request()->routeIs('admin.tickets.index')) href="{{ route('admin.tickets.index') }}" @endunless>
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="fa fa-clipboard-list opacity-10 text-primary"></i>
               </div>
@@ -57,19 +57,27 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link @if(request()->routeIs('admin.users.index')) active @endif" href="{{ route('admin.users.index') }}">
+            <a class="nav-link @if(request()->routeIs('admin.users.index')) active @endif" @unless(request()->routeIs('admin.users.index')) href="{{ route('admin.users.index') }}" @endunless>
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="fa fa-users opacity-10 text-primary"></i>
               </div>
               <span class="nav-link-text ms-1">Users</span>
             </a>
           </li>
+          <li class="nav-item">
+              <a class="nav-link @if(request()->routeIs('admin.users.index')) active @endif" @unless(request()->routeIs('admin.users.index')) href="{{ route('admin.users.index') }}" @endunless>
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="fa fa-users opacity-10 text-primary"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">User roles</span>
+              </a>
+          </li>
         @endif
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link @if(request()->routeIs('account')) active @endif" @if(request()->routeIs('account')) href="{{ route('account') }}" @endif>
+          <a class="nav-link @if(request()->routeIs('account')) active @endif" @unless(request()->routeIs('account')) href="{{ route('account') }}" @endunless >
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="fa fa-table opacity-10 text-primary"></i>
             </div>
