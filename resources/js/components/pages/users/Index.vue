@@ -58,6 +58,7 @@
         </div> -->
         <b-table
             :data="users"
+            :selected.sync="selected"
             :paginated="isPaginated"
             :per-page="perPage"
             :current-page.sync="currentPage"
@@ -114,9 +115,13 @@
             </b-table-column>
 
             <b-table-column>
-                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" v-on:click="isComponentModalActive = true">
+                <Edit 
+                    v-bind:formProps="selected"
+                    v-on:save-data="editData"
+                />
+                <!-- <a href="javascript:;" class="text-secondary font-weight-bold text-xs" v-on:click="isComponentModalActive = true">
                     <i class="fa fa-pencil-square-o sbadge badge-sm bg-gradient-primary color-white text-white px-1 rounded h6" aria-hidden="true"></i>
-                </a>
+                </a> -->
                 &nbsp; | &nbsp;
                 <a href="javascript:;" class="text-secondary font-weight-bold text-xs">
                     <i class="fa fa-trash sbadge badge-sm bg-gradient-danger color-white text-white px-1 rounded h6" aria-hidden="true"></i>
@@ -125,7 +130,6 @@
 
         </b-table>
     </div>
-    <Edit />
 </div>
 </template>
 
@@ -141,6 +145,7 @@ export default {
             users: [],
             loading: true,
             errored: false,
+            selected: {},
             //table
             isPaginated: true,
             isPaginationSimple: false,
@@ -177,13 +182,16 @@ export default {
               .get('/api/users')
               .then(response => {
                 this.users = response.data
-                console.log(response)  
+                // console.log(response)  
               })
               .catch(error => {
                   console.log(error)
                   this.errored = true
               })
               .finally(() => this.loading = false)
+        },
+        editData(selected) {
+            console.log(selected)
         }
     },
     components: {
