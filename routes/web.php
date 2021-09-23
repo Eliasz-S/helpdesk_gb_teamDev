@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect()->route('login');
     })->name('logout');
 
-    Route::get('/account', [TicketController::class, 'account'])
+    Route::get('/account', [ProfileController::class, 'account'])
         ->name('account');
 
     Route::apiResource('my-tickets', AdminTicketController::class);
@@ -48,5 +48,4 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-//Route::resource('issue', IssueController::class);
 //Route::get('wl', function () {return view('welcome');});

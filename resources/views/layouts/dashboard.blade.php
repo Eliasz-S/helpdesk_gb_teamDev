@@ -36,7 +36,7 @@
         </li>
         @if ($userRole === 'ROLE_CUSTOMER')
         <li class="nav-item">
-          <a class="nav-link @if(request()->routeIs('admin.tickets.index')) active @endif" href="{{ route('admin.tickets.index') }}">
+          <a class="nav-link @if(request()->routeIs('my-tickets')) active @endif" href="/my-tickets">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="fa fa-table opacity-10 text-primary"></i>
             </div>
@@ -69,7 +69,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link @if(request()->routeIs('account')) active @endif" href="{{ route('account') }}">
+          <a class="nav-link @if(request()->routeIs('account')) active @endif" @if(request()->routeIs('account')) href="{{ route('account') }}" @endif>
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="fa fa-table opacity-10 text-primary"></i>
             </div>
