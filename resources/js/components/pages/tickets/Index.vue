@@ -28,7 +28,7 @@
                         {{ props.row.id }}
                     </b-table-column>
 
-                    <b-table-column field="name" label="Name" sortable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <b-table-column field="customer_name" label="Name" sortable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     <template v-if="showDetailIcon">
                           <div class="d-flex px-2 py-1">
                             <div>
@@ -51,7 +51,7 @@
                         <p class="text-xs font-weight-bold mb-0">{{ props.row.subject }}</p>
                     </b-table-column>
 
-                    <b-table-column field="status" label="Priority" sortable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <b-table-column field="priority" label="Priority" sortable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         <span class="badge badge-sm bg-gradient-danger" v-if="props.row.priority == 'high'">{{ props.row.priority }}</span>
                         <span class="badge badge-sm bg-gradient-primary" v-else>{{ props.row.priority }}</span>
                     </b-table-column>
