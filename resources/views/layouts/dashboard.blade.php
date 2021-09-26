@@ -14,6 +14,7 @@
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ asset('admin/css/styles.css') }}" rel="stylesheet" />
+  <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
 </head>
 <body class="g-sidenav-show  bg-gray-100">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
@@ -65,7 +66,7 @@
             </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link @if(request()->routeIs('admin.users.index')) active @endif" @unless(request()->routeIs('admin.users.index')) href="{{ route('admin.users.index') }}" @endunless>
+              <a class="nav-link @if(request()->routeIs('admin.roles.index')) active @endif" @unless(request()->routeIs('admin.roles.index')) href="{{ route('admin.roles.index') }}" @endunless>
                   <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                       <i class="fa fa-users opacity-10 text-primary"></i>
                   </div>
@@ -162,7 +163,13 @@
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      @yield('content')
+
+        <div class="row">
+            <div id="app"></div>
+        </div>
+
+        @yield('content')
+
     </div>
   </main>
 
@@ -176,7 +183,7 @@
   <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('admin/js/plugins/perfect-scrollbar.min.js') }}"></script>
   <script src="{{ asset('admin/js/plugins/smooth-scrollbar.min.js') }}"></script>
-  <script src="{{ asset('admin/plugins/chartjs.min.js') }}"></script>
+{{--  <script src="{{ asset('admin/plugins/chartjs.min.js') }}"></script>--}}
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->

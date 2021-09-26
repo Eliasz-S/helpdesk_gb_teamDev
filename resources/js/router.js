@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router';
-import Test from './components/User';
+import Roles from './components/roles/Index';
 import Tickets from './components/pages/tickets/Index';
 import Users from './components/pages/users/Index'
 
@@ -18,8 +18,11 @@ export default new VueRouter({
         {
             path: '/admin/users',
             component: Users
-        }
-
+        },
+        {
+            path: '/admin/roles',
+            component: Roles
+        },
     ],
     // в историю записываются перемещения при переходах
     mode: 'history'

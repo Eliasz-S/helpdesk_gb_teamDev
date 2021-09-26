@@ -14,7 +14,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getUserRole()
+    public static function getUserRole()
     {
         $userRole = \Auth::user()->load('userRole')->userRole->code;
         return $userRole;

@@ -15,11 +15,11 @@ mix.js('resources/js/app.js', 'public/js')
     .extract(['vue'])
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    // .sourceMaps()
+    .sourceMaps()
 
-if (mix.inProduction()) {
-    mix.version()
-}
+// if (mix.inProduction()) {
+//     mix.version()
+// }
 
 // mix.browserSync({
 //     proxy: 'laravel.test'

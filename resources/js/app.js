@@ -1,6 +1,5 @@
 require('./bootstrap')
 
-// window.Vue = require('vue')
 import Vue from 'vue'
 
 import Buefy from "buefy"
@@ -16,8 +15,8 @@ Vue.component('tickets', Tickets);
 Vue.component('users', Users);
 
 // будут перенесены в определенные компоненты
-import route from './route.js'
-import Lang from './lang'
+// import route from './route.js'
+// import Lang from './lang'
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'))
 

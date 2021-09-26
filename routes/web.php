@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
-use App\Http\Controllers\API\TicketController as APITicketController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -38,12 +38,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/account', [ProfileController::class, 'account'])
         ->name('account');
 
-    Route::apiResource('my-tickets', AdminTicketController::class);
+    Route::resource('my-tickets', AdminTicketController::class);
 
     //admin
     Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
+//        Route::get('/', function(){
+//            return view('layouts.dashboard');
+//        });
         Route::resource('users', UserController::class);
-        Route::apiResource('tickets', AdminTicketController::class);
+        Route::resource('roles', RoleController::class);
+        Route::resource('tickets', AdminTicketController::class);
     });
 });
 

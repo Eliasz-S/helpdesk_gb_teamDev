@@ -20,14 +20,14 @@ class TicketController extends Controller
                 ->whereColumn('messages.ticket_id', 'tickets.id')
                 ->limit(1)
             ])
-            ->join('users as staff', 'tickets.customer_id', '=', 'staff.id')
-            ->join('users as customer', 'tickets.staff_id', '=', 'customer.id')
+            ->leftJoin('users as staff', 'tickets.staff_id', '=', 'staff.id')
+            ->join('users as customer', 'tickets.customer_id', '=', 'customer.id')
             ->join('ticket_status', 'tickets.status_id', '=', 'ticket_status.id')
             ->join('ticket_priority', 'tickets.priority_id', '=', 'ticket_priority.id')
             ->select(
                 \DB::raw("(SELECT messages.message FROM messages
                     WHERE messages.ticket_id = tickets.id LIMIT 1
-                    ) as message"), 
+                    ) as message"),
                 'tickets.id', 'tickets.subject', 'customer.name as customer_name', 'customer.email as customer_email','staff.name as staff_name','staff.email as staff_email', 'ticket_status.description as status', 'ticket_priority.description as priority', 'tickets.created_at')
             ->latest()
             ->paginate(Ticket::count());
