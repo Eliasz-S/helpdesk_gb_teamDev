@@ -6,6 +6,7 @@ import Tickets from './components/tickets/Index';
 import TicketTypes from './components/ticket-types/Index';
 import TicketStatus from './components/ticket-status/Index';
 import TicketPriority from './components/ticket-priority/Index';
+import Teams from './components/teams/Index';
 
 
 export default new VueRouter({
@@ -38,6 +39,10 @@ export default new VueRouter({
         {
             path: '/admin/roles',
             component: Roles
+        },
+        {
+            path: '/admin/teams',
+            component: Teams
         },
     ],
     // в историю записываются перемещения при переходах

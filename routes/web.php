@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Admin\TicketTypeController;
@@ -54,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('ticket-types', TicketTypeController::class);
         Route::resource('ticket-status', TicketStatusController::class);
         Route::resource('ticket-priority', TicketPriorityController::class);
+        Route::resource('teams', TeamController::class);
     });
 });
 
