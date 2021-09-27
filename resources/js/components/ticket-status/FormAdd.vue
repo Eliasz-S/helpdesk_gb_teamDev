@@ -1,7 +1,7 @@
 <template>
     <section>
         <b-button type="is-info" v-on:click="isComponentModalActive = true" rounded>
-            Add ticket types
+            Add ticket status
         </b-button>
 
         <b-modal

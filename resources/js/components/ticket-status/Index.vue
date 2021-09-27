@@ -2,7 +2,7 @@
     <div class="col-12">
 
             <div class="card-header pb-0 d-flex justify-content-between">
-                <h2>Ticket types</h2>
+                <h2>Ticket status</h2>
 
                 <div v-if="alert"
                     class="alert" v-bind:class="[isError ? errorClass : successClass]"
