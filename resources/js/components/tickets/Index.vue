@@ -135,9 +135,9 @@
 
 <script>
 import axios from 'axios'
-import route from '../../../route'
-import Edit from '../../pages/tickets/Edit.vue'
-import Add from '../../pages/tickets/Add.vue'
+import route from '../../route'
+import Edit from '../tickets/Edit.vue'
+import Add from '../tickets/Add.vue'
 
 var moment = require('moment')
 
