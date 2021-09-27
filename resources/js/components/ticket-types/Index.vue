@@ -64,7 +64,7 @@
 
                 <b-table-column field="is_active" label="Active" sortable v-slot="props">
                     <div class="d-flex px-2 py-3">
-                        <label @click="editRecord(props.row)" class="text-xs font-weight-bold mb-0">
+                        <label @change="editRecord(props.row)" class="text-xs font-weight-bold mb-0">
                             <input type="checkbox" id="checkbox" v-model="props.row.is_active">
                         </label>
                     </div>
@@ -166,7 +166,7 @@ export default {
                     }
                 }).catch(error => {
                     this.setAlert(
-                        'Произошла добавления. Попробуйте повторить позже!'
+                        'Произошла ошибка добавления. Попробуйте повторить позже!'
                         ,error
                         ,true
                     )

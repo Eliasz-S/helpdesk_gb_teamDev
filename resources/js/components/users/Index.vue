@@ -3,17 +3,17 @@
     <div class="card mb-4">
         <div class="card-header pb-0 d-flex justify-content-between">
             <h6>User List</h6>
-            
-            <div 
+
+            <div
                 v-if="alert"
-                class="alert" 
+                class="alert"
                 v-bind:class="[isError ? errorClass : successClass]"
                 @click="alert='', isError=false"
             >
                 {{ alert }}
             </div>
 
-            <Add 
+            <Add
                 v-bind:formProps=getFormProps()
                 v-on:save-data="addNewUser"
             />
@@ -86,7 +86,7 @@
             </b-table-column>
 
             <b-table-column v-slot="props">
-                <Edit 
+                <Edit
                     v-bind:formProps=getFormProps()
                     v-on:save-data="editData"
                 />
@@ -103,8 +103,8 @@
 
 <script>
 import axios from 'axios'
-import Edit from '../../pages/users/Edit.vue'
-import Add from '../../pages/users/Add.vue'
+import Edit from './Edit.vue'
+import Add from './Add.vue'
 
 var moment = require('moment')
 
@@ -142,8 +142,7 @@ export default {
     },
     filters: {
         dateFormat:
-            function(value) 
-            {
+            function(value) {
                 return moment(value).format('LLL');
             }
     },
@@ -161,7 +160,6 @@ export default {
               .then(response => {
                 this.users = response.data.users
                 this.roles = response.data.roles
-                console.log(response)  
               })
               .catch(error => {
                   console.log(error)
@@ -171,44 +169,35 @@ export default {
         },
         editData(selected) {
             this.isLoading = true
-            axios
-                .put(`/api/users/${selected.id}`, this.selected)
+            axios.put(`/api/users/${selected.id}`, selected)
                 .then(response => {
-                    this.getUsers()
-                    console.log(response)
                     if (response.statusText = "OK") {
                         this.setAlert('Запись успешно изменена!')
                         this.getUsers()
                     }
-                })
-                .catch(error => {
-                    console.log(error)
+                }).catch(error => {
                     this.setAlert(
                         'Произошла ошибка сохранения. Попробуйте повторить позже!'
-                        ,error 
+                        ,error
                         ,true
                     )
                 })
                 .finally(() => {
                     this.isLoading = false
-                    
                 })
         },
         addNewUser(newUserData) {
-            console.log(newUserData)
             this.isLoading = true
             axios
                 .post('/api/users', newUserData)
                 .then(response => {
                     this.getUsers()
-                    console.log(response)
                     if (response.statusText = "OK") {
                         this.setAlert('Запись успешно добавлена!')
                         this.getUsers()
                     }
                 })
                 .catch(error => {
-                    console.log(error)
                     this.setAlert(
                         'Произошла добавления. Попробуйте повторить позже!'
                         ,error
@@ -225,15 +214,12 @@ export default {
                 .delete(`/api/users/${id}`)
                 .then(response => {
                     this.getUsers()
-                    console.log(response)
                     if (response.status = 200) {
                         this.setAlert('Запись успешно удалена!')
                         this.getUsers()
                     }
                 })
                 .catch(error => {
-                  console.log(error)
-                  this.errored = true
                   this.setAlert(
                         'Произошла ошибка удаления. Есть связанные записи или сервер не доступен!'
                         ,error
@@ -246,7 +232,7 @@ export default {
             if(error) console.error(error)
             if(isError) this.isError = true
             this.alert = message
-            
+
             setTimeout(() => {
                 this.isError = false
                 this.alert = ''

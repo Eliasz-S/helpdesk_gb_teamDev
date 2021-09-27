@@ -9,7 +9,7 @@ class TicketType extends Model
 {
     use HasFactory;
 
-    protected $table = "ticket-types";
+    protected $table = "ticket_types";
 
     protected $fillable = [
         'code',

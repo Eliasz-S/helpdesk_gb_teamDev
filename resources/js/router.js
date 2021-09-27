@@ -1,8 +1,8 @@
 import VueRouter from 'vue-router';
 
-import Users from './components/pages/users/Index'
+import Users from './components/users/Index'
 import Roles from './components/roles/Index';
-import Tickets from './components/pages/tickets/Index';
+import Tickets from './components/tickets/Index';
 import TicketTypes from './components/ticket-types/Index';
 
 

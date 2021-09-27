@@ -33,7 +33,7 @@
                           <div class="d-flex px-2 py-1">
                             <div>
                                 <img :src=" '../admin/img/team-3.jpg'" alt="user1" class="avatar avatar-sm me-3">
-                            </div> 
+                            </div>
                             <div class="d-flex flex-column justify-content-center">
                               <h6 class="mb-0 text-sm">{{ props.row.customer_name }}</h6>
                               <p class="text-xs text-secondary mb-0">{{ props.row.customer_email }}</p>
@@ -115,7 +115,6 @@
 
 <script>
 import axios from 'axios'
-import route from '../../../route'
 
 var moment = require('moment')
 
@@ -152,7 +151,7 @@ export default {
     },
     filters: {
         dateFormat:
-            function(value) 
+            function(value)
             {
                 return moment(value).lang('en').format('LLL');
             }
