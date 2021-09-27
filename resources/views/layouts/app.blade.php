@@ -30,8 +30,7 @@
     -->
 </head>
 <body>
-    <div id="app">
-  
+<div id="app">
   <!-- ***** Header Area Start ***** -->
   <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
     <div class="container header_container">
@@ -50,49 +49,48 @@
               <!-- <li class="scroll-to-section"><a href="#features">О компании</a></li>-->
               <li class="scroll-to-section"><a href="#contact">Оставить заявку</a></li>
                 @guest
-                    @if (Route::has('login'))
+                  @if (Route::has('login'))
                     <li class="scroll-to-section">
-                        <div class="main-blue-button">
-                            <a href="{{ route('login') }}">{{ __('Вход') }}</a>
-                        </div>
+                      <div class="main-blue-button">
+                        <a href="{{ route('login') }}">{{ __('Вход') }}</a>
+                      </div>
                     </li>
-                    @endif
+                  @endif
                 @else
+                  <li id="navbarDropdown" class="main-blue-button nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                      {{ Auth::user()->name }}
+                  </li>
 
-                        <li id="navbarDropdown" class="main-blue-button nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </li>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                          <a 
-                            class="dropdown-item" 
-                            href="{{ route('account') }}"
-                            onclick="
-                                event.preventDefault();
-                                document.getElementById('profile-form').submit();
-                              "
-                          >
-                            {{ __('Мой профиль') }}
-                          </a>
-                          <a 
-                            class="dropdown-item" 
-                            href="{{ route('logout') }}"
-                            onclick="
-                                event.preventDefault();
-                                document.getElementById('logout-form').submit();
-                              "
-                          >
-                            {{ __('Выход') }}
-                          </a>
-                          
-                          <form id="profile-form" action="{{ route('account') }}" method="POST" class="d-none">
-                              @csrf
-                              @method('get')
-                          </form>
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                              @csrf
-                          </form>
-                        </div>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a 
+                      class="dropdown-item" 
+                      href="{{ route('account') }}"
+                      onclick="
+                          event.preventDefault();
+                          document.getElementById('profile-form').submit();
+                        "
+                    >
+                      {{ __('Мой профиль') }}
+                    </a>
+                    <a 
+                      class="dropdown-item" 
+                      href="{{ route('logout') }}"
+                      onclick="
+                          event.preventDefault();
+                          document.getElementById('logout-form').submit();
+                        "
+                    >
+                      {{ __('Выход') }}
+                    </a>
+                    
+                    <form id="profile-form" action="{{ route('account') }}" method="POST" class="d-none">
+                        @csrf
+                        @method('get')
+                    </form>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                  </div>
                 @endguest 
             </ul>        
             <a class='menu-trigger'>
@@ -106,12 +104,15 @@
   </header>
   <!-- ***** Header Area End ***** -->
 
-        <main class="content-block">
-            @yield('content')
-        </main>
-    </div>
+  <main class="content-block">
+      @yield('content')
+  </main>
+</div>
 
     <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="{{ asset('js/jquery.min.js') }}"></script>
   <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('js/owl-carousel.js') }}"></script>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserUpdate;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -15,9 +17,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::with('userRole')
+        $users = User::with('userRole')
             ->orderBy('id', 'desc')
             ->get();
+
+        $roles = UserRole::all();
+
+        return [
+            'users' => $users,
+            'roles' => $roles
+        ];
     }
 
     /**
@@ -28,7 +37,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'user_role_id' => $request->get('user_role_id')
+        ]);
+
+        $user->save();
     }
 
     /**
@@ -49,9 +66,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->first_name = $request->get('first_name');
+        $user->last_name = $request->get('last_name');
+        $user->user_role_id = $request->get('user_role_id');
+        $user->is_enabled = $request->get('is_enabled');            
+    
+        $user->save();
     }
 
     /**
@@ -60,8 +84,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
     }
 }

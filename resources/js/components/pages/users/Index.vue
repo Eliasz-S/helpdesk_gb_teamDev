@@ -3,59 +3,22 @@
     <div class="card mb-4">
         <div class="card-header pb-0 d-flex justify-content-between">
             <h6>User List</h6>
-        </div>
-        <!-- <div class="card-body px-0 pt-0 pb-2">
-            <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                    <thead>
-                        <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" width="25px">#ID</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Login</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Role</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Of Addition</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="user in users" :key="user.id">
-                            <td>
-                                <p class="text-xs font-weight-bold mb-0">{{ user.id }}</p>
-                            </td>
-                            <td>
-                                <div class="d-flex px-2 py-1">
-                                    <div>
-                                        <img :src="'../admin/img/team-3.jpg'" class="avatar avatar-sm me-3" alt="user1">
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">{{ user.name }}
-                                            <span v-if="user.first_name">
-                                              | {{ user.first_name }} {{ user.last_name }}
-                                            </span>
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">{{ user.email }}</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge badge-sm bg-gradient-success">{{ user.user_role.description }}</span>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                <p class="text-xs font-weight-bold mb-0">{{ user.created_at }}</p>
-                            </td>
-                            <td class="align-middle">
-                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                    <i class="fa fa-pencil-square-o sbadge badge-sm bg-gradient-primary color-white text-white px-1 rounded h6" aria-hidden="true"></i>
-                                </a>
-                                &nbsp; | &nbsp;
-                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                    <i class="fa fa-trash sbadge badge-sm bg-gradient-danger color-white text-white px-1 rounded h6" aria-hidden="true"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            
+            <div 
+                v-if="alert"
+                class="alert" 
+                v-bind:class="[isError ? errorClass : successClass]"
+                @click="alert='', isError=false"
+            >
+                {{ alert }}
             </div>
-        </div> -->
+
+            <Add 
+                v-bind:formProps=getFormProps()
+                v-on:save-data="addNewUser"
+            />
+
+        </div>
         <b-table
             :data="users"
             :selected.sync="selected"
@@ -73,6 +36,8 @@
             aria-previous-label="Previous page"
             aria-page-label="Page"
             aria-current-label="Current page">
+
+            <b-loading :is-full-page="isFullPage" v-model="isLoading"></b-loading>
 
             <b-table-column field="id" label="#ID" width="40" sortable v-slot="props">
                 <div class="d-flex px-2 py-3">
@@ -114,16 +79,19 @@
                 </div>
             </b-table-column>
 
-            <b-table-column>
+            <b-table-column field="is_enabled" label="Active" sortable v-slot="props">
+                <label for="checkbox" @change="editData(props.row)">
+                    <input type="checkbox" id="checkbox" v-model="props.row.is_enabled">
+                </label>
+            </b-table-column>
+
+            <b-table-column v-slot="props">
                 <Edit 
-                    v-bind:formProps="selected"
+                    v-bind:formProps=getFormProps()
                     v-on:save-data="editData"
                 />
-                <!-- <a href="javascript:;" class="text-secondary font-weight-bold text-xs" v-on:click="isComponentModalActive = true">
-                    <i class="fa fa-pencil-square-o sbadge badge-sm bg-gradient-primary color-white text-white px-1 rounded h6" aria-hidden="true"></i>
-                </a> -->
                 &nbsp; | &nbsp;
-                <a href="javascript:;" class="text-secondary font-weight-bold text-xs">
+                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" @click="deleteUser(props.row.id)">
                     <i class="fa fa-trash sbadge badge-sm bg-gradient-danger color-white text-white px-1 rounded h6" aria-hidden="true"></i>
                 </a>
             </b-table-column>
@@ -136,6 +104,7 @@
 <script>
 import axios from 'axios'
 import Edit from '../../pages/users/Edit.vue'
+import Add from '../../pages/users/Add.vue'
 
 var moment = require('moment')
 
@@ -143,10 +112,11 @@ export default {
     data() {
         return {
             users: [],
-            loading: true,
-            errored: false,
+            roles: [],
+            // loading: true,
+            // errored: false,
             selected: {},
-            //table
+            //buefy table params
             isPaginated: true,
             isPaginationSimple: false,
             isPaginationRounded: false,
@@ -155,15 +125,16 @@ export default {
             sortIcon: 'arrow-up',
             sortIconSize: 'is-small',
             currentPage: 1,
-            perPage: 5,
-            user: {
-                id: '',
-                name: '',
-                user_role: '',
-                created_at: '',
-                first_name: '',
-                last_name: ''
-            },
+            perPage: 7,
+            //alerts
+            isError: false,
+            alert: '',
+            alertTimeout: 7000,
+            errorClass: 'alert-danger',
+            successClass: 'alert-success',
+            //loading
+            isLoading: true,
+            isFullPage: false
         }
     },
     mounted() {
@@ -177,25 +148,114 @@ export default {
             }
     },
     methods: {
+        getFormProps() {
+            return {
+                selected: this.selected,
+                roleList: this.roles
+            }
+        },
         getUsers() {
+            this.isLoading = true
             axios
               .get('/api/users')
               .then(response => {
-                this.users = response.data
-                // console.log(response)  
+                this.users = response.data.users
+                this.roles = response.data.roles
+                console.log(response)  
               })
               .catch(error => {
                   console.log(error)
                   this.errored = true
               })
-              .finally(() => this.loading = false)
+              .finally(() => this.isLoading = false)
         },
         editData(selected) {
-            console.log(selected)
+            this.isLoading = true
+            axios
+                .put(`/api/users/${selected.id}`, this.selected)
+                .then(response => {
+                    this.getUsers()
+                    console.log(response)
+                    if (response.statusText = "OK") {
+                        this.setAlert('Запись успешно изменена!')
+                        this.getUsers()
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.setAlert(
+                        'Произошла ошибка сохранения. Попробуйте повторить позже!'
+                        ,error 
+                        ,true
+                    )
+                })
+                .finally(() => {
+                    this.isLoading = false
+                    
+                })
+        },
+        addNewUser(newUserData) {
+            console.log(newUserData)
+            this.isLoading = true
+            axios
+                .post('/api/users', newUserData)
+                .then(response => {
+                    this.getUsers()
+                    console.log(response)
+                    if (response.statusText = "OK") {
+                        this.setAlert('Запись успешно добавлена!')
+                        this.getUsers()
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.setAlert(
+                        'Произошла добавления. Попробуйте повторить позже!'
+                        ,error
+                        ,true
+                    )
+                })
+                .finally(() => {
+                    this.isLoading = false
+                })
+        },
+        deleteUser(id) {
+            this.isLoading = true
+            axios
+                .delete(`/api/users/${id}`)
+                .then(response => {
+                    this.getUsers()
+                    console.log(response)
+                    if (response.status = 200) {
+                        this.setAlert('Запись успешно удалена!')
+                        this.getUsers()
+                    }
+                })
+                .catch(error => {
+                  console.log(error)
+                  this.errored = true
+                  this.setAlert(
+                        'Произошла ошибка удаления. Есть связанные записи или сервер не доступен!'
+                        ,error
+                        ,true
+                    )
+                })
+                .finally(() => this.isLoading = false)
+        },
+        setAlert(message, error = null, isError = null) {
+            if(error) console.error(error)
+            if(isError) this.isError = true
+            this.alert = message
+            
+            setTimeout(() => {
+                this.isError = false
+                this.alert = ''
+            }, this.alertTimeout);
         }
     },
     components: {
-        Edit
+        Edit,
+        Add
     }
 }
 </script>
