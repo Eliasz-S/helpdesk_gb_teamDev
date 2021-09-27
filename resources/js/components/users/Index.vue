@@ -35,7 +35,8 @@
             aria-next-label="Next page"
             aria-previous-label="Previous page"
             aria-page-label="Page"
-            aria-current-label="Current page">
+            aria-current-label="Current page"
+            class="table align-items-center mb-2">
 
             <b-loading :is-full-page="isFullPage" v-model="isLoading"></b-loading>
 
@@ -231,8 +232,14 @@ export default {
         setAlert(message, error = null, isError = null) {
             if(error) console.error(error)
             if(isError) this.isError = true
-            this.alert = message
-
+                const notif = this.$buefy.notification.open({
+                    duration: 5000,
+                    message: message,
+                    position: 'is-bottom-right',
+                    type: 'is-info',
+                    hasIcon: true
+                })
+            
             setTimeout(() => {
                 this.isError = false
                 this.alert = ''

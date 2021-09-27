@@ -1,6 +1,6 @@
 <template>
     <section>
-        <b-button type="is-info" v-on:click="isComponentModalActive = true" rounded>
+        <b-button type="is-info" v-on:click="isComponentModalActive = true">
             Add user
         </b-button>
         <b-modal

@@ -1,6 +1,6 @@
 <template>
     <section>
-        <b-button icon-left="plus" type="is-info" v-on:click="isComponentModalActive = true" rounded>
+        <b-button icon-left="plus" type="is-info" v-on:click="isComponentModalActive = true">
             New ticket
         </b-button>
 
@@ -63,7 +63,7 @@
                     <b-field horizontal label="Detail">
 
                         <b-field label="Status">
-                            <b-select placeholder="Status" v-model="status_id" expanded>
+                            <b-select placeholder="Status" v-model="status_id" required expanded>
                                 <option
                                     v-for="status in statusList"
                                     :value="status.id"
@@ -74,7 +74,7 @@
                         </b-field>
 
                         <b-field label="Priority">
-                            <b-select placeholder="Priority" v-model="priority_id" expanded>
+                            <b-select placeholder="Priority" v-model="priority_id" required expanded>
                                 <option
                                     v-for="priority in priorityList"
                                     :value="priority.id"
@@ -85,7 +85,7 @@
                         </b-field>
 
                         <b-field label="Type">
-                            <b-select placeholder="Type" v-model="type_id" expanded>
+                            <b-select placeholder="Type" v-model="type_id" required expanded>
                                 <option
                                     v-for="type in typeList"
                                     :value="type.id"
@@ -97,7 +97,7 @@
                     </b-field>
 
                     <b-field horizontal label="Message" v-model="message">
-                        <b-input type="textarea"></b-input>
+                        <b-input type="textarea" required></b-input>
                     </b-field>
                     
                 </section>

@@ -1,6 +1,6 @@
 <template>
     <div class="col-12">
-
+        <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between">
                 <h2>Role List</h2>
 
@@ -34,7 +34,8 @@
                 :default-sort-direction="defaultSortDirection"
                 default-sort="id"
 
-                :selected.sync="selected">
+                :selected.sync="selected"
+                class="table align-items-center mb-2">
 
                 <b-loading :is-full-page="isFullPage" v-model="isLoading"></b-loading>
 
@@ -75,7 +76,7 @@
                     </a>
                 </b-table-column>
             </b-table>
-
+        </div>
     </div>
 </template>
 
@@ -201,8 +202,14 @@ export default {
         setAlert(message, error = null, isError = null) {
             if(error) console.error(error)
             if(isError) this.isError = true
-            this.alert = message
-
+                const notif = this.$buefy.notification.open({
+                    duration: 5000,
+                    message: message,
+                    position: 'is-bottom-right',
+                    type: 'is-info',
+                    hasIcon: true
+                })
+            
             setTimeout(() => {
                 this.isError = false
                 this.alert = ''

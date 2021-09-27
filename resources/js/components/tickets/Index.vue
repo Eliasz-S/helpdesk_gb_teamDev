@@ -5,13 +5,10 @@
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between">
               <h6>Ticket List</h6>
-            
-            <div v-if="alert" class="alert" v-bind:class="[isError ? errorClass : successClass]"
-                @click="alert='', isError=false" >
-            </div>
-            <Add v-bind:formProps=getFormProps() v-on:save-data="addNewTicket" />
-            
-
+                <div v-if="alert" class="alert" v-bind:class="[isError ? errorClass : successClass]"
+                    @click="alert='', isError=false" >
+                </div>
+                <Add v-bind:formProps=getFormProps() v-on:save-data="addNewTicket" />
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -39,7 +36,7 @@
                     :detail-transition="transitionName"
                     @details-open="(row) => $buefy.toast.open(`Expanded ${row.customer_user.first_name}`)"
                     :show-detail-icon="showDetailIcon"
-                    class="table align-items-center mb-0">
+                    class="table align-items-center mb-2">
 
                     <b-table-column field="id" label="#ID" width="40" numeric v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         {{ props.row.id }}
@@ -266,7 +263,13 @@ export default {
         setAlert(message, error = null, isError = null) {
             if(error) console.error(error)
             if(isError) this.isError = true
-            this.$buefy.dialog.alert(message)
+                const notif = this.$buefy.notification.open({
+                    duration: 5000,
+                    message: message,
+                    position: 'is-bottom-right',
+                    type: 'is-info',
+                    hasIcon: true
+                })
             
             setTimeout(() => {
                 this.isError = false

@@ -35,7 +35,7 @@ class TicketController extends Controller
         $status = TicketStatus::all();
         $priority = TicketPriority::all();
         $customerUser = User::where('user_role_id', '4')->get();
-        $staffUser = User::where('user_role_id', '1')->get();
+        $staffUser = User::where('user_role_id', '1')->orWhere('user_role_id', '2')->orWhere('user_role_id', '3')->get();
         $type = TicketType::all();
         $message = Message::all();
 
@@ -58,8 +58,8 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        //$userID = Auth::user()->id;
-        $userID = '1';
+        $userID = Auth::user()->id;
+        //$userID = '1';
 
         $ticket = new Ticket([
             'subject' => $request->get('subject'),

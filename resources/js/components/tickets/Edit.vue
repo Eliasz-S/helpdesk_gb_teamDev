@@ -30,7 +30,7 @@
             <form action="">
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Edit user data</p>
+                        <p class="modal-card-title">Edit ticket</p>
                         <button
                             type="button"
                             class="delete"

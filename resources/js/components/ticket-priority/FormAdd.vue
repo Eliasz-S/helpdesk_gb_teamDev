@@ -1,6 +1,6 @@
 <template>
     <section>
-        <b-button type="is-info" v-on:click="isComponentModalActive = true" rounded>
+        <b-button icon-left="plus" type="is-info" v-on:click="isComponentModalActive = true">
             Add ticket priority
         </b-button>
 
