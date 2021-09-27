@@ -38,7 +38,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = new User([
-            'name' => $request->get('name'),
+            'name' => $request->get('namet'),
             'email' => $request->get('email'),
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),

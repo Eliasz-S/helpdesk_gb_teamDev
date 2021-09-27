@@ -12,6 +12,7 @@ use App\Models\TicketStatus;
 use App\Models\TicketType;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -57,7 +58,19 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$userID = Auth::user()->id;
+        $userID = '1';
+
+        $ticket = new Ticket([
+            'subject' => $request->get('subject'),
+            'status_id' => $request->get('status_id'),
+            'priority_id' => $request->get('priority_id'),
+            'type_id' => $request->get('type_id'),
+            'staff_id' => $request->get('staff_id'),
+            'customer_id' => $userID,
+        ]);
+
+        $ticket->save();
     }
 
     /**

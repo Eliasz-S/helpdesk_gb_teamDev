@@ -6,14 +6,11 @@
             <div class="card-header pb-0 d-flex justify-content-between">
               <h6>Ticket List</h6>
             
-            <div 
-                v-if="alert"
-                class="alert" 
-                v-bind:class="[isError ? errorClass : successClass]"
-                @click="alert='', isError=false"
-            >
-                {{ alert }}
+            <div v-if="alert" class="alert" v-bind:class="[isError ? errorClass : successClass]"
+                @click="alert='', isError=false" >
             </div>
+            <Add v-bind:formProps=getFormProps() v-on:save-data="addNewTicket" />
+            
 
             </div>
             <div class="card-body px-0 pt-0 pb-2">
@@ -75,7 +72,10 @@
 
                      <b-table-column field="status" label="Status" sortable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         <span class="badge badge-sm bg-gradient-success" v-if="props.row.ticket_status.description == 'free'">{{ props.row.ticket_status.description }}</span>
-                        <span class="badge badge-sm bg-gradient-warning" v-else-if="props.row.ticket_status.description == 'busy'">{{ props.row.ticket_status.description }}</span>
+                        <span class="badge badge-sm bg-gradient-warning" v-else-if="props.row.ticket_status.description == 'busy'">
+                            {{ props.row.ticket_status.description }}
+                            <b-progress type="is-warning is-small"></b-progress>
+                        </span>
                         <span class="badge badge-sm bg-gradient-primary" v-else >{{ props.row.ticket_status.description }}</span>
                     </b-table-column>
 
@@ -102,7 +102,7 @@
                                         <img :src=" '../admin/img/team-3.jpg'" alt="user1" class="avatar avatar-sm me-3 mb-2">
                                         <h6 class="mb-0 text-sm">Staff: {{ props.row.staff_user.name  }}</h6>
                                         <p class="text-xs text-secondary mb-0">{{ props.row.staff_user.email }}</p>
-                                        <p class="text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.descrition }}</p>
+                                        <p class="text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
                                       </div>
                                       <div class="form-group col-md-9">
                                         <textarea class="form-control" rows="3" :placeholder="props.row.message.message"></textarea>
@@ -137,6 +137,7 @@
 import axios from 'axios'
 import route from '../../../route'
 import Edit from '../../pages/tickets/Edit.vue'
+import Add from '../../pages/tickets/Add.vue'
 
 var moment = require('moment')
 
@@ -203,6 +204,7 @@ export default {
               this.priority = response.data.priority
               this.type = response.data.type
               this.staff_user = response.data.staff_user
+              this.customer_user = response.data.customer_user
                 console.log(response)  
             })
             .catch(error => {
@@ -219,14 +221,14 @@ export default {
                     this.getTickets()
                     console.log(response)
                     if (response.statusText = "OK") {
-                        this.setAlert('Запись успешно изменена!')
+                        this.setAlert('Ticket updated!')
                         this.getTickets()
                     }
                 })
                 .catch(error => {
                     console.log(error)
                     this.setAlert(
-                        'Произошла ошибка сохранения. Попробуйте повторить позже!'
+                        'Something went wrong! Try later'
                         ,error 
                         ,true
                     )
@@ -236,10 +238,35 @@ export default {
                     
                 })
         },
+        addNewTicket(newTicketData) {
+            console.log(newTicketData)
+            this.isLoading = true
+            axios
+                .post('/api/tickets', newTicketData)
+                .then(response => {
+                    this.getTickets()
+                    console.log(response)
+                    if (response.statusText = "OK") {
+                        this.setAlert('Ticket created!')
+                        this.getTickets()
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.setAlert(
+                        'Something went wrong! Try later'
+                        ,error
+                        ,true
+                    )
+                })
+                .finally(() => {
+                    this.isLoading = false
+                })
+        },
         setAlert(message, error = null, isError = null) {
             if(error) console.error(error)
             if(isError) this.isError = true
-            this.$buefy.dialog.alert('Ticket updated')
+            this.$buefy.dialog.alert(message)
             
             setTimeout(() => {
                 this.isError = false
@@ -248,7 +275,8 @@ export default {
         }
     },
     components: {
-        Edit
+        Edit,
+        Add
     },
     computed: {
         transitionName() {

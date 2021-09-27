@@ -16,7 +16,6 @@ class Ticket extends Model
     protected $table = "tickets";
 
     protected $fillable = [
-        'source',
         'subject',
         'status_id',
         'priority_id',
@@ -25,8 +24,7 @@ class Ticket extends Model
         'staff_id',
         'team_id',
         'created_at',
-        'updated_at',
-        'message'
+        'updated_at'
     ];
 
     public function users(): HasMany
