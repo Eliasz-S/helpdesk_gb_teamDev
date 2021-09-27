@@ -6,6 +6,7 @@ use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\TicketTypeController;
+use App\Http\Controllers\API\TicketStatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,4 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('tickets', TicketController::class);
 Route::apiResource('ticket-types', TicketTypeController::class);
+Route::apiResource('ticket-status', TicketStatusController::class);

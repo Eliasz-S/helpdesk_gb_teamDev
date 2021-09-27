@@ -4,6 +4,7 @@ import Users from './components/users/Index'
 import Roles from './components/roles/Index';
 import Tickets from './components/tickets/Index';
 import TicketTypes from './components/ticket-types/Index';
+import TicketStatus from './components/ticket-status/Index';
 
 
 export default new VueRouter({
@@ -20,6 +21,10 @@ export default new VueRouter({
         {
             path: '/admin/ticket-types',
             component: TicketTypes
+        },
+        {
+            path: '/admin/ticket-status',
+            component: TicketStatus
         },
         {
             path: '/admin/users',
