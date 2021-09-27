@@ -1,7 +1,9 @@
 import VueRouter from 'vue-router';
+
+import Users from './components/pages/users/Index'
 import Roles from './components/roles/Index';
 import Tickets from './components/pages/tickets/Index';
-import Users from './components/pages/users/Index'
+import TicketTypes from './components/ticket-types/Index';
 
 
 export default new VueRouter({
@@ -14,6 +16,10 @@ export default new VueRouter({
         {
             path: '/admin/tickets',
             component: Tickets
+        },
+        {
+            path: '/admin/ticket-types',
+            component: TicketTypes
         },
         {
             path: '/admin/users',

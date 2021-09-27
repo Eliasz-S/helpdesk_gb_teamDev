@@ -58,6 +58,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link @if(request()->routeIs('admin.ticket-types.index')) active @endif" @unless(request()->routeIs('admin.ticket-types.index')) href="{{ route('admin.ticket-types.index') }}" @endunless>
+              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="fa fa-clipboard-list opacity-10 text-primary"></i>
+              </div>
+              <span class="nav-link-text ms-1">Ticket types</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link @if(request()->routeIs('admin.users.index')) active @endif" @unless(request()->routeIs('admin.users.index')) href="{{ route('admin.users.index') }}" @endunless>
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="fa fa-users opacity-10 text-primary"></i>
