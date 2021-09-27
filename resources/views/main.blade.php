@@ -11,7 +11,7 @@
             <div class="left-content header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
               <div class="row">
                 <div class="col-lg-12">
-                  <h2>Help Desk система учета и управления заявками</h2>
+                  <h2>Help Desk - система учета и управления заявками</h2>
                 </div>
                 <div class="col-lg-12">
                   <div class="main-green-button scroll-to-section">

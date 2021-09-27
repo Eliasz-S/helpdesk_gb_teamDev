@@ -1,8 +1,8 @@
 <template>
     <section>
-        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" v-on:click="isComponentModalActive = true">
-            <i class="fa fa-pencil-square-o sbadge badge-sm bg-gradient-primary color-white text-white px-1 rounded h6" aria-hidden="true"></i>
-        </a>
+        <b-button type="is-info" v-on:click="isComponentModalActive = true" rounded>
+            Add user
+        </b-button>
         <b-modal
             v-model="isComponentModalActive"
             has-modal-card
@@ -14,7 +14,7 @@
             <template #default="props">
                 <modal-form 
                     v-bind="formProps" 
-                    v-on:save-data="editData" 
+                    v-on:save-data="saveData" 
                     @close="props.close"
                 >
                 </modal-form>
@@ -25,12 +25,21 @@
 
 <script>
     const ModalForm = {
-        props: ['selected', 'roleList'],
+        props: ['roleList'],
+        data() {
+            return {
+                name: '',
+                email: '',
+                first_name: '',
+                last_name: '',
+                user_role_id: 4
+            }
+        },
         template: `
             <form action="">
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Edit user data</p>
+                        <p class="modal-card-title">Add new user</p>
                         <button
                             type="button"
                             class="delete"
@@ -42,7 +51,7 @@
                         <b-field label="Login">
                             <b-input
                                 type="text"
-                                v-model="selected.name"
+                                v-model="name"
                                 required>
                             </b-input>
                         </b-field>
@@ -50,7 +59,7 @@
                         <b-field label="Email">
                             <b-input
                                 type="email"
-                                v-model="selected.email"
+                                v-model="email"
                                 required>
                             </b-input>
                         </b-field>
@@ -58,19 +67,19 @@
                         <b-field label="First Name">
                             <b-input
                                 type="text"
-                                v-model="selected.first_name">
+                                v-model="first_name">
                             </b-input>
                         </b-field>
 
                         <b-field label="Last Name">
                             <b-input
                                 type="text"
-                                v-model="selected.last_name">
+                                v-model="last_name">
                             </b-input>
                         </b-field>
 
                         <b-field label="User Role">
-                            <b-select placeholder="Select a role" v-model=selected.user_role_id>
+                            <b-select placeholder="Select a role" v-model="user_role_id">
                                 <option
                                     v-for="role in roleList"
                                     :value="role.id"
@@ -87,13 +96,30 @@
                             label="Close"
                             @click="$emit('close')" />
                         <b-button
-                            label="Save"
+                            label="Add user"
                             type="is-primary"
-                            v-on:click="$emit('save-data', selected), $emit('close')" />
+                            v-on:click="saveData" />
                     </footer>
                 </div>
             </form>
-        `
+        `,
+        methods: {
+            saveData() {
+                this.$emit('save-data', {
+                    name: this.name,
+                    email: this.email,
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    user_role_id: this.user_role_id
+                })
+
+                this.name = ''
+                this.email= ''
+                this.first_name= ''
+                this.last_name= ''
+                this.user_role_id= 4
+            }
+        },
     }
 
     export default {
@@ -107,8 +133,9 @@
             }
         },
         methods: {
-            editData(selected) {
-                this.$emit('save-data', selected)
+            saveData(newUserData) {
+                this.isComponentModalActive= false
+                this.$emit('save-data', newUserData)
             }
         }
     }
