@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Admin\TicketTypeController;
 use App\Http\Controllers\Admin\TicketStatusController;
+use App\Http\Controllers\Admin\TicketPriorityController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('tickets', AdminTicketController::class);
         Route::resource('ticket-types', TicketTypeController::class);
         Route::resource('ticket-status', TicketStatusController::class);
+        Route::resource('ticket-priority', TicketPriorityController::class);
     });
 });
 
