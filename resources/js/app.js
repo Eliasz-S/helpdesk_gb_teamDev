@@ -8,8 +8,8 @@ import 'buefy/dist/buefy.css'
 import VueRouter from 'vue-router'
 import router from './router'
 import App from './components/App'
-import Tickets from './components/pages/tickets/Index'
-import Users from './components/pages/users/Index'
+import Tickets from './components/tickets/Index'
+import Users from './components/users/Index'
 
 Vue.component('tickets', Tickets);
 Vue.component('users', Users);

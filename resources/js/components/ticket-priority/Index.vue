@@ -2,7 +2,7 @@
     <div class="col-12">
 
             <div class="card-header pb-0 d-flex justify-content-between">
-                <h2>Ticket types</h2>
+                <h2>Ticket priority</h2>
 
                 <div v-if="alert"
                     class="alert" v-bind:class="[isError ? errorClass : successClass]"
@@ -62,14 +62,6 @@
                     </div>
                 </b-table-column>
 
-                <b-table-column field="is_active" label="Active" sortable v-slot="props">
-                    <div class="d-flex px-2 py-3">
-                        <label @change="editRecord(props.row)" class="text-xs font-weight-bold mb-0">
-                            <input type="checkbox" id="checkbox" v-model="props.row.is_active">
-                        </label>
-                    </div>
-                </b-table-column>
-
                 <b-table-column field="id" v-slot="props">
                     <FormEdit
                         :formData=getFormData()
@@ -90,7 +82,6 @@
 <script>
 import axios from 'axios'
 // import moment from "moment";
-// import route from '../../route'
 import FormEdit from "./FormEdit";
 import FormAdd from "./FormAdd";
 
@@ -142,7 +133,7 @@ export default {
             }
         },
         getData() {
-            axios.get('/api/ticket-types')
+            axios.get('/api/ticket-priority')
                 .then(response => {
                     this.data = response.data
                     this.setPaginated()
@@ -158,7 +149,7 @@ export default {
         },
         addRecord(newRecord) {
             this.isLoading = true
-            axios.post('/api/ticket-types', newRecord)
+            axios.post('/api/ticket-priority', newRecord)
                 .then(response => {
                     if (response.statusText = "OK") {
                         this.setAlert('Запись успешно добавлена!')
@@ -174,7 +165,7 @@ export default {
         },
         editRecord(record) {
             this.isLoading = true
-            axios.put('/api/ticket-types/'+record.id, record)
+            axios.put('/api/ticket-priority/'+record.id, record)
                 .then(response => {
                     if (response.statusText = "OK") {
                         this.setAlert('Запись успешно изменена!')
@@ -191,7 +182,7 @@ export default {
         },
         delRecord(rowID) {
             this.isLoading = true
-            axios.delete('/api/ticket-types/'+rowID)
+            axios.delete('/api/ticket-priority/'+rowID)
                 .then(response => {
                     if (response.status = 200) {
                         this.setAlert('Запись успешно удалена!')

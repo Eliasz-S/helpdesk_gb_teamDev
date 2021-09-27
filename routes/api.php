@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\API\TeamController;
 use App\Http\Controllers\API\TicketController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\TicketTypeController;
+use App\Http\Controllers\API\TicketStatusController;
+use App\Http\Controllers\API\TicketPriorityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +30,6 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('tickets', TicketController::class);
 Route::apiResource('ticket-types', TicketTypeController::class);
+Route::apiResource('ticket-status', TicketStatusController::class);
+Route::apiResource('ticket-priority', TicketPriorityController::class);
+Route::apiResource('teams', TeamController::class);

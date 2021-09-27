@@ -158,7 +158,7 @@ export default {
                     }
                 }).catch(error => {
                     this.setAlert(
-                        'Произошла добавления. Попробуйте повторить позже!'
+                        'Произошла ошибка добавления. Попробуйте повторить позже!'
                         ,error
                         ,true
                     )
@@ -175,7 +175,7 @@ export default {
                 }).catch(error => {
                     this.setAlert(
                         'Произошла ошибка сохранения. Попробуйте повторить позже!'
-                        ,error 
+                        ,error
                         ,true
                     )
                 })
@@ -202,7 +202,7 @@ export default {
             if(error) console.error(error)
             if(isError) this.isError = true
             this.alert = message
-            
+
             setTimeout(() => {
                 this.isError = false
                 this.alert = ''

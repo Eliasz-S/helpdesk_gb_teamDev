@@ -32,7 +32,7 @@
                     aria-previous-label="Previous page"
                     aria-page-label="Page"
                     aria-current-label="Current page"
-                    
+
                     :opened-detailed="defaultOpenedDetails"
                     detailed
                     detail-key="id"
@@ -83,7 +83,7 @@
                         <span class="text-secondary text-xs font-weight-bold">{{ props.row.created_at | dateFormat }}</span>
                     </b-table-column>
                     <b-table-column>
-                      <Edit 
+                      <Edit
                           v-bind:formProps=getFormProps()
                           v-on:save-data="editData"
                       />
@@ -180,7 +180,7 @@ export default {
     },
     filters: {
         dateFormat:
-            function(value) 
+            function(value)
             {
                 return moment(value).format('LLL');
             }
@@ -235,7 +235,7 @@ export default {
                 })
                 .finally(() => {
                     this.isLoading = false
-                    
+
                 })
         },
         addNewTicket(newTicketData) {

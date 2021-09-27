@@ -14,7 +14,8 @@ class TicketType extends Model
 
     protected $fillable = [
         'code',
-        'description'
+        'description',
+        'is_active'
     ];
 
     public function ticket(): HasMany
