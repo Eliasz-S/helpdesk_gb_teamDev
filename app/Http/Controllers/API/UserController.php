@@ -73,8 +73,8 @@ class UserController extends Controller
         $user->first_name = $request->get('first_name');
         $user->last_name = $request->get('last_name');
         $user->user_role_id = $request->get('user_role_id');
-        $user->is_enabled = $request->get('is_enabled');            
-    
+        $user->is_enabled = $request->get('is_enabled');
+
         $user->save();
     }
 
