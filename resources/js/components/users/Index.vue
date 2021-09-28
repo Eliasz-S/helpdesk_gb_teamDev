@@ -4,21 +4,10 @@
         <div class="card-header pb-0 d-flex justify-content-between">
             <h6>User List</h6>
 
-            <div
-                v-if="alert"
-                class="alert"
-                v-bind:class="[isError ? errorClass : successClass]"
-                @click="alert='', isError=false"
-            >
-                {{ alert }}
-            </div>
-
-            <Add
-                v-bind:formProps=getFormProps()
-                v-on:save-data="addNewUser"
-            />
-
+            <Add v-bind:formProps=getFormProps()
+                v-on:save-data="addNewUser" />
         </div>
+
         <b-table
             :data="users"
             :selected.sync="selected"
@@ -89,8 +78,7 @@
             <b-table-column v-slot="props">
                 <Edit
                     v-bind:formProps=getFormProps()
-                    v-on:save-data="editData"
-                />
+                    v-on:save-data="editData" />
                 &nbsp; | &nbsp;
                 <a href="javascript:;" class="text-secondary font-weight-bold text-xs" @click="deleteUser(props.row.id)">
                     <i class="fa fa-trash sbadge badge-sm bg-gradient-danger color-white text-white px-1 rounded h6" aria-hidden="true"></i>
@@ -114,10 +102,7 @@ export default {
         return {
             users: [],
             roles: [],
-            // loading: true,
-            // errored: false,
             selected: {},
-            //buefy table params
             isPaginated: true,
             isPaginationSimple: false,
             isPaginationRounded: false,
@@ -126,14 +111,11 @@ export default {
             sortIcon: 'arrow-up',
             sortIconSize: 'is-small',
             currentPage: 1,
-            perPage: 7,
-            //alerts
+            perPage: 12,
+
             isError: false,
-            alert: '',
-            alertTimeout: 7000,
-            errorClass: 'alert-danger',
-            successClass: 'alert-success',
-            //loading
+            alertTimeout: 15000,
+
             isLoading: true,
             isFullPage: false
         }
@@ -154,6 +136,9 @@ export default {
                 roleList: this.roles
             }
         },
+        setPaginated() {
+            this.isPaginated = this.users.length > this.perPage
+        },
         getUsers() {
             this.isLoading = true
             axios
@@ -161,6 +146,7 @@ export default {
               .then(response => {
                 this.users = response.data.users
                 this.roles = response.data.roles
+                this.setPaginated()
               })
               .catch(error => {
                   console.log(error)
@@ -200,7 +186,7 @@ export default {
                 })
                 .catch(error => {
                     this.setAlert(
-                        'Произошла добавления. Попробуйте повторить позже!'
+                        'Произошла ошибка добавления. Попробуйте повторить позже!'
                         ,error
                         ,true
                     )
@@ -231,19 +217,13 @@ export default {
         },
         setAlert(message, error = null, isError = null) {
             if(error) console.error(error)
-            if(isError) this.isError = true
-                const notif = this.$buefy.notification.open({
-                    duration: 5000,
-                    message: message,
-                    position: 'is-bottom-right',
-                    type: 'is-info',
-                    hasIcon: true
-                })
-            
-            setTimeout(() => {
-                this.isError = false
-                this.alert = ''
-            }, this.alertTimeout);
+            const notif = this.$buefy.notification.open({
+                duration: this.alertTimeout,
+                message: message,
+                position: 'is-bottom-right',
+                type: (isError ? 'is-warning' : 'is-info'),
+                hasIcon: true
+            })
         }
     },
     components: {

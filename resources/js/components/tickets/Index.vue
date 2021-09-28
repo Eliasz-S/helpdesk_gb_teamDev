@@ -5,9 +5,7 @@
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between">
               <h6>Ticket List</h6>
-                <div v-if="alert" class="alert" v-bind:class="[isError ? errorClass : successClass]"
-                    @click="alert='', isError=false" >
-                </div>
+
                 <Add v-bind:formProps=getFormProps() v-on:save-data="addNewTicket" />
             </div>
             <div class="card-body px-0 pt-0 pb-2">
@@ -147,7 +145,6 @@ export default {
             type: [],
             staff_user: [],
             selected: {},
-            //buefy table params
             isPaginated: true,
             isPaginationSimple: false,
             isPaginationRounded: false,
@@ -156,7 +153,7 @@ export default {
             sortIcon: 'arrow-up',
             sortIconSize: 'is-small',
             currentPage: 1,
-            perPage: 7,
+            perPage: 10,
             edit: false,
             errored: false,
             defaultOpenedDetails: [1],
@@ -164,12 +161,9 @@ export default {
             useTransition: false,
             isLoading: true,
             isFullPage: true,
-            //alerts
+
             isError: false,
-            alert: '',
-            alertTimeout: 7000,
-            errorClass: 'alert-danger',
-            successClass: 'alert-success',
+            alertTimeout: 15000,
         }
     },
     mounted() {
@@ -192,6 +186,9 @@ export default {
                 staffList: this.staff_user,
             }
         },
+        setPaginated() {
+            this.isPaginated = this.tickets.length > this.perPage
+        },
         getTickets() {
             axios
             .get('/api/tickets')
@@ -202,7 +199,7 @@ export default {
               this.type = response.data.type
               this.staff_user = response.data.staff_user
               this.customer_user = response.data.customer_user
-                console.log(response)  
+              this.setPaginated()
             })
             .catch(error => {
                 console.log(error)
@@ -226,7 +223,7 @@ export default {
                     console.log(error)
                     this.setAlert(
                         'Something went wrong! Try later'
-                        ,error 
+                        ,error
                         ,true
                     )
                 })
@@ -262,19 +259,13 @@ export default {
         },
         setAlert(message, error = null, isError = null) {
             if(error) console.error(error)
-            if(isError) this.isError = true
-                const notif = this.$buefy.notification.open({
-                    duration: 5000,
-                    message: message,
-                    position: 'is-bottom-right',
-                    type: 'is-info',
-                    hasIcon: true
-                })
-            
-            setTimeout(() => {
-                this.isError = false
-                this.alert = ''
-            }, this.alertTimeout);
+            const notif = this.$buefy.notification.open({
+                duration: this.alertTimeout,
+                message: message,
+                position: 'is-bottom-right',
+                type: (isError ? 'is-warning' : 'is-info'),
+                hasIcon: true
+            })
         }
     },
     components: {

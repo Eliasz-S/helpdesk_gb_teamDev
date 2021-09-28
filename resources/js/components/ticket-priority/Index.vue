@@ -4,15 +4,7 @@
             <div class="card-header pb-0 d-flex justify-content-between">
                 <h2>Ticket priority</h2>
 
-                <div v-if="alert"
-                    class="alert" v-bind:class="[isError ? errorClass : successClass]"
-                    @click="alert='', isError=false">
-                    {{ alert }}
-                </div>
-
-                <FormAdd
-                    v-on:add-record="addRecord"
-                />
+                <FormAdd v-on:add-record="addRecord" />
             </div>
 
             <b-table
@@ -82,7 +74,6 @@
 
 <script>
 import axios from 'axios'
-// import moment from "moment";
 import FormEdit from "./FormEdit";
 import FormAdd from "./FormAdd";
 
@@ -95,7 +86,7 @@ export default {
         return {
             isPaginated: true,
             isPaginationSimple: false,
-            isPaginationRounded: true,
+            isPaginationRounded: false,
             paginationPosition: 'bottom',
 
             defaultSortDirection: 'desc',
@@ -110,10 +101,7 @@ export default {
             data: [],
 
             isError: false,
-            alert: '',
-            alertTimeout: 7000,
-            errorClass: 'alert-danger',
-            successClass: 'alert-success',
+            alertTimeout: 15000,
 
             isLoading: true,
             isFullPage: false
@@ -122,11 +110,6 @@ export default {
     mounted() {
         this.getData()
     },
-    // filters: {
-    //     dateFormat(value) {
-    //         return moment(value).format('LLL')
-    //     }
-    // },
     methods: {
         getFormData() {
             return {
@@ -200,19 +183,13 @@ export default {
         },
         setAlert(message, error = null, isError = null) {
             if(error) console.error(error)
-            if(isError) this.isError = true
-                const notif = this.$buefy.notification.open({
-                    duration: 5000,
-                    message: message,
-                    position: 'is-bottom-right',
-                    type: 'is-info',
-                    hasIcon: true
-                })
-            
-            setTimeout(() => {
-                this.isError = false
-                this.alert = ''
-            }, this.alertTimeout);
+            const notif = this.$buefy.notification.open({
+                duration: this.alertTimeout,
+                message: message,
+                position: 'is-bottom-right',
+                type: (isError ? 'is-warning' : 'is-info'),
+                hasIcon: true
+            })
         }
     }
 }
