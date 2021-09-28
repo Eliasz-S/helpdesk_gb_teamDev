@@ -1,20 +1,23 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
 //@import '~bootstrap/scss/bootstrap';
 
 nav.pagination {
-    a[role="button"] {
+    a.pagination-link.is-current {
         background-color: $primary;
     }
 }
 
-.table>tbody {
+.table > tbody {
     tr.is-selected {
-        background-color: $primary;
+        background-color: $selectedBg;
     }
+}
+tr.is-selected td {
+    color: $color_black !important;
 }
