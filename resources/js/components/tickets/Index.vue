@@ -42,10 +42,8 @@
 
                     <b-table-column field="customer" label="Name" sortable v-slot="props">
                         <div class="d-flex px-2 py-1">
-                            <div>
-                                <img :src="'../admin/img/team-3.jpg'" class="avatar avatar-sm me-3" alt="user1">
-                            </div>
-                            <div class="d-flex flex-column justify-content-center">
+                            <img :src="'../admin/img/team-3.jpg'" class="avatar avatar-sm me-3" alt="user1">
+                            <div class="d-flex flex-column px-3 justify-content-center">
                                 <h6 class="mb-0 text-sm">{{ props.row.customer_user.name }}
                                     <span v-if="props.row.customer_user.first_name">
                                         | {{ props.row.customer_user.first_name }} {{ props.row.customer_user.last_name }}

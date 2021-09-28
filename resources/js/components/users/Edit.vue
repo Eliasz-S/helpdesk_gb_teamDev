@@ -81,7 +81,7 @@
                         </b-field>
 
                         <b-field label="Add to team">
-                            <b-select placeholder="Select a team">
+                            <b-select placeholder="Select a team" v-model=selected.teamId>
                                 <option
                                     v-for="team in teamList"
                                     :value="team.id"
