@@ -1,6 +1,6 @@
 <template>
     <section>
-        <b-button type="is-info" v-on:click="isComponentModalActive = true">
+        <b-button icon-left="plus" type="is-info" v-on:click="isComponentModalActive = true">
             Add user
         </b-button>
 
@@ -8,7 +8,6 @@
             v-model="isComponentModalActive"
             has-modal-card
             trap-focus
-            full-screen
             :destroy-on-hide="false"
             aria-role="dialog"
             aria-label="Example Modal"
@@ -38,7 +37,6 @@
             }
         },
         template: `
-            <form action="">
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Add new user</p>
@@ -103,7 +101,6 @@
                             v-on:click="saveData" />
                     </footer>
                 </div>
-            </form>
         `,
         methods: {
             saveData() {
