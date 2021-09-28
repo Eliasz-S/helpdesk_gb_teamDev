@@ -102,6 +102,7 @@ export default {
         return {
             users: [],
             roles: [],
+            teams: [],
             selected: {},
             isPaginated: true,
             isPaginationSimple: false,
@@ -133,7 +134,8 @@ export default {
         getFormProps() {
             return {
                 selected: this.selected,
-                roleList: this.roles
+                roleList: this.roles,
+                teamList: this.teams
             }
         },
         setPaginated() {
@@ -147,6 +149,8 @@ export default {
               .then(response => {
                 this.users = response.data.users
                 this.roles = response.data.roles
+                this.teams = response.data.teams
+                console.log(response)
                 this.setPaginated()
               })
               .catch(error => {
@@ -157,9 +161,11 @@ export default {
         },
         editData(selected) {
             this.isLoading = true
+            console.log(selected)
             axios.put(`/api/users/${selected.id}`, selected)
                 .then(response => {
                     if (response.statusText = "OK") {
+                        //console.log(response)
                         this.setAlert('Запись успешно изменена!')
                         this.getUsers()
                     }

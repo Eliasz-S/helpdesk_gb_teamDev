@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdate;
+use App\Models\Team;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
@@ -18,14 +19,17 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('userRole')
+            ->with('team')
             ->orderBy('id', 'desc')
             ->get();
 
         $roles = UserRole::all();
+        $teams = Team::all();
 
         return [
             'users' => $users,
-            'roles' => $roles
+            'roles' => $roles,
+            'teams' => $teams
         ];
     }
 
@@ -66,7 +70,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, Team $team)
     {
         $user->name = $request->get('name');
         $user->email = $request->get('email');

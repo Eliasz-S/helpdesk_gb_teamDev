@@ -25,7 +25,7 @@
 
 <script>
     const ModalForm = {
-        props: ['selected', 'roleList'],
+        props: ['selected', 'roleList', 'teamList'],
         template: `
             <form action="">
                 <div class="modal-card" style="width: auto">
@@ -76,6 +76,17 @@
                                     :value="role.id"
                                     :key="role.id">
                                     {{ role.code }}
+                                </option>
+                            </b-select>
+                        </b-field>
+
+                        <b-field label="Add to team">
+                            <b-select placeholder="Select a team">
+                                <option
+                                    v-for="team in teamList"
+                                    :value="team.id"
+                                    :key="team.id">
+                                    {{ team.name }}
                                 </option>
                             </b-select>
                         </b-field>

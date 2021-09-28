@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Team extends Model
+class UserTeam extends Model
 {
     use HasFactory;
 
@@ -16,8 +15,5 @@ class Team extends Model
         'description'
     ];
 
-    public function user() : BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'user_teams', 'team_id', 'user_id');
-    }
+    
 }
