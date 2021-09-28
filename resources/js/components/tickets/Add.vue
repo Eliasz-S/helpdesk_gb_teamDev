@@ -8,9 +8,10 @@
             v-model="isComponentModalActive"
             has-modal-card
             trap-focus
-            full-screen
             :destroy-on-hide="false"
-            :can-cancel="false">
+            aria-role="dialog"
+            aria-label="Example Modal"
+            aria-modal>
             <template #default="props">
                 <modal-form 
                     v-bind="formProps" 
@@ -41,14 +42,14 @@
                 <header class="modal-card-head">
                     <p class="modal-card-title">Create ticket</p>
                 </header>
-                <section class="modal-card-body mr-4">
+                <section class="modal-card-body pr-4">
 
                     <b-field horizontal label="Subject" message="Please enter a subject">
                         <b-input name="subject" required type="text" v-model="subject"></b-input>
                     </b-field>
 
                     <b-field horizontal label="Staff">
-                            <b-select placeholder="staff" v-model="staff_id" expanded>
+                            <b-select placeholder="staff" v-model="staff_id" expanded icon="user-cog">
                                 <option value="0">None</option>
                                 <option
                                     v-for="staff in staffList"
@@ -57,7 +58,6 @@
                                     {{ staff.email }}
                                 </option>
                             </b-select>
-                        <b-input name="name" placeholder="Name" expanded></b-input>
                     </b-field>
 
                     <b-field horizontal label="Detail">

@@ -160,7 +160,7 @@ export default {
             showDetailIcon: true,
             useTransition: false,
             isLoading: true,
-            isFullPage: true,
+            isFullPage: false,
 
             isError: false,
             alertTimeout: 15000,

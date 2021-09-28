@@ -27,7 +27,6 @@
     const ModalForm = {
         props: ['selected','statusList','priorityList', 'typeList', 'staffList'],
         template: `
-            <form action="">
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Edit ticket</p>
@@ -40,7 +39,7 @@
                     <section class="modal-card-body">
 
                         <b-field label="Status">
-                            <b-select placeholder="Status" v-model=selected.status_id>
+                            <b-select placeholder="Status" v-model=selected.status_id expanded>
                                 <option
                                     v-for="status in statusList"
                                     :value="status.id"
@@ -51,7 +50,7 @@
                         </b-field>
 
                         <b-field label="Priority">
-                            <b-select placeholder="Priority" v-model=selected.priority_id>
+                            <b-select placeholder="Priority" v-model=selected.priority_id expanded>
                                 <option
                                     v-for="priority in priorityList"
                                     :value="priority.id"
@@ -62,7 +61,7 @@
                         </b-field>
 
                         <b-field label="Type">
-                            <b-select placeholder="Type" v-model=selected.type_id>
+                            <b-select placeholder="Type" v-model=selected.type_id expanded>
                                 <option
                                     v-for="type in typeList"
                                     :value="type.id"
@@ -73,7 +72,7 @@
                         </b-field>
 
                         <b-field label="Staff">
-                            <b-select placeholder="staff" v-model=selected.staff_id>
+                            <b-select placeholder="staff" v-model=selected.staff_id expanded>
                                 <option
                                     v-for="staff in staffList"
                                     :value="staff.id"
@@ -96,7 +95,6 @@
                             v-on:click="$emit('save-data', selected), $emit('close')" />
                     </footer>
                 </div>
-            </form>
         `
     }
 
