@@ -193,22 +193,10 @@ export default {
                 duration: this.alertTimeout,
                 message: message,
                 position: 'is-bottom-right',
-                type: (isError ? 'is-warning' : 'is-info'),
+                type: (isError ? 'is-warning' : 'is-success'),
                 hasIcon: true
             })
         }
     }
 }
 </script>
-
-<style lang="css" scoped>
-    .alert{
-        background-image: none;
-    }
-    .alert-danger{
-        background-color: #f8d7da;
-    }
-    .alert-success{
-        background-color: #d7f3e3;
-    }
-</style>

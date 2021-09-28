@@ -18,8 +18,6 @@ Vue.component('users', Users);
 // import route from './route.js'
 // import Lang from './lang'
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue'))
-
 Vue.use(Buefy)
 Vue.use(VueRouter)
 

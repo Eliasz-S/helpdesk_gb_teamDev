@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 class TicketStatusController extends Controller
 {
     public function index() {
-        return view('layouts.dashboard', [
+        return view('admin.index', [
             'userRole' => UserController::getUserRole()
         ]);
     }

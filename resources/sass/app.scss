@@ -5,4 +5,16 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
+
+nav.pagination {
+    a[role="button"] {
+        background-color: $primary;
+    }
+}
+
+.table>tbody {
+    tr.is-selected {
+        background-color: $primary;
+    }
+}

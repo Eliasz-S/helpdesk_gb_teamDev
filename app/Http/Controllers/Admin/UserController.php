@@ -32,7 +32,7 @@ class UserController extends Controller
             ->get();
 
 
-        return view('admin.users.index', [
+        return view('admin.index', [
             'userList' => $users,
             'userRole' => $this->getUserRole()
         ]);

@@ -263,7 +263,7 @@ export default {
                 duration: this.alertTimeout,
                 message: message,
                 position: 'is-bottom-right',
-                type: (isError ? 'is-warning' : 'is-info'),
+                type: (isError ? 'is-warning' : 'is-success'),
                 hasIcon: true
             })
         }
