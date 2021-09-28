@@ -1,8 +1,9 @@
 <template>
     <section>
-        <b-button type="is-info" v-on:click="isComponentModalActive = true" rounded>
+        <b-button icon-left="plus" type="is-info" v-on:click="isComponentModalActive = true">
             Add user
         </b-button>
+
         <b-modal
             v-model="isComponentModalActive"
             has-modal-card
@@ -12,9 +13,9 @@
             aria-label="Example Modal"
             aria-modal>
             <template #default="props">
-                <modal-form 
-                    v-bind="formProps" 
-                    v-on:save-data="saveData" 
+                <modal-form
+                    v-bind="formProps"
+                    v-on:save-data="saveData"
                     @close="props.close"
                 >
                 </modal-form>
@@ -36,7 +37,6 @@
             }
         },
         template: `
-            <form action="">
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Add new user</p>
@@ -101,7 +101,6 @@
                             v-on:click="saveData" />
                     </footer>
                 </div>
-            </form>
         `,
         methods: {
             saveData() {

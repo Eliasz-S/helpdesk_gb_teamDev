@@ -1,7 +1,7 @@
 <template>
     <section>
         <b-button icon-left="plus" type="is-info" v-on:click="isComponentModalActive = true">
-            Add role
+            Add team
         </b-button>
 
         <b-modal
@@ -26,15 +26,15 @@
 const ModalForm = {
     data() {
         return {
-            'code': '',
-            'description': ''
+            'name': '',
+            'description': '',
         }
     },
     template: `
         <form action="">
         <div class="modal-card" style="width: auto">
             <header class="modal-card-head">
-                <p class="modal-card-title">Add user role</p>
+                <p class="modal-card-title">Add team</p>
                 <button
                     type="button"
                     class="delete"
@@ -42,10 +42,10 @@ const ModalForm = {
             </header>
 
             <section class="modal-card-body">
-                <b-field label="Code">
+                <b-field label="Name">
                     <b-input
                         type="text"
-                        v-model="code"
+                        v-model="name"
                         required>
                     </b-input>
                 </b-field>
@@ -75,11 +75,11 @@ const ModalForm = {
     methods: {
         saveData() {
             this.$emit('save-data', {
-                code: this.code,
-                description: this.description
+                name: this.name,
+                description: this.description,
             })
 
-            this.code = ''
+            this.name = ''
             this.description = ''
         }
     },
@@ -96,13 +96,9 @@ export default {
         }
     },
     methods: {
-        saveData({code, description}) {
+        saveData(data) {
             this.isComponentModalActive=false
-            let formProps = {
-                code: code,
-                description: description
-            }
-            this.$emit('add-record', formProps)
+            this.$emit('add-record', data)
         }
     }
 }

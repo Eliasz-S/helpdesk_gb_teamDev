@@ -1,20 +1,11 @@
 <template>
     <div class="col-12">
-
+        <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between">
                 <h2>Ticket types</h2>
 
-                <div v-if="alert"
-                    class="alert" v-bind:class="[isError ? errorClass : successClass]"
-                    @click="alert='', isError=false">
-                    {{ alert }}
-                </div>
-
-                <FormAdd
-                    v-on:add-record="addRecord"
-                />
+                <FormAdd v-on:add-record="addRecord" />
             </div>
-
             <b-table
                 :data="data"
 
@@ -34,7 +25,8 @@
                 :default-sort-direction="defaultSortDirection"
                 default-sort="id"
 
-                :selected.sync="selected">
+                :selected.sync="selected"
+                class="table align-items-center mb-2">
 
                 <b-loading :is-full-page="isFullPage" v-model="isLoading"></b-loading>
 
@@ -64,7 +56,7 @@
 
                 <b-table-column field="is_active" label="Active" sortable v-slot="props">
                     <div class="d-flex px-2 py-3">
-                        <label @click="editRecord(props.row)" class="text-xs font-weight-bold mb-0">
+                        <label @change="editRecord(props.row)" class="text-xs font-weight-bold mb-0">
                             <input type="checkbox" id="checkbox" v-model="props.row.is_active">
                         </label>
                     </div>
@@ -83,7 +75,7 @@
                     </a>
                 </b-table-column>
             </b-table>
-
+        </div>
     </div>
 </template>
 
@@ -103,7 +95,7 @@ export default {
         return {
             isPaginated: true,
             isPaginationSimple: false,
-            isPaginationRounded: true,
+            isPaginationRounded: false,
             paginationPosition: 'bottom',
 
             defaultSortDirection: 'desc',
@@ -118,10 +110,7 @@ export default {
             data: [],
 
             isError: false,
-            alert: '',
-            alertTimeout: 7000,
-            errorClass: 'alert-danger',
-            successClass: 'alert-success',
+            alertTimeout: 15000,
 
             isLoading: true,
             isFullPage: false
@@ -166,7 +155,7 @@ export default {
                     }
                 }).catch(error => {
                     this.setAlert(
-                        'Произошла добавления. Попробуйте повторить позже!'
+                        'Произошла ошибка добавления. Попробуйте повторить позже!'
                         ,error
                         ,true
                     )
@@ -208,26 +197,14 @@ export default {
         },
         setAlert(message, error = null, isError = null) {
             if(error) console.error(error)
-            if(isError) this.isError = true
-            this.alert = message
-
-            setTimeout(() => {
-                this.isError = false
-                this.alert = ''
-            }, this.alertTimeout);
+            const notif = this.$buefy.notification.open({
+                duration: this.alertTimeout,
+                message: message,
+                position: 'is-bottom-right',
+                type: (isError ? 'is-warning' : 'is-success'),
+                hasIcon: true
+            })
         }
     }
 }
 </script>
-
-<style lang="css" scoped>
-    .alert{
-        background-image: none;
-    }
-    .alert-danger{
-        background-color: #f8d7da;
-    }
-    .alert-success{
-        background-color: #d7f3e3;
-    }
-</style>

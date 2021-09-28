@@ -1,6 +1,6 @@
 <template>
     <section>
-        <b-button type="is-info" v-on:click="isComponentModalActive = true" rounded>
+        <b-button icon-left="plus" type="is-info" v-on:click="isComponentModalActive = true">
             Add ticket types
         </b-button>
 
@@ -27,7 +27,7 @@ const ModalForm = {
     data() {
         return {
             'code': '',
-            'description': ''
+            'description': '',
         }
     },
     template: `
@@ -76,7 +76,8 @@ const ModalForm = {
         saveData() {
             this.$emit('save-data', {
                 code: this.code,
-                description: this.description
+                description: this.description,
+                is_active: 1
             })
 
             this.code = ''
@@ -96,13 +97,9 @@ export default {
         }
     },
     methods: {
-        saveData({code, description}) {
+        saveData(data) {
             this.isComponentModalActive=false
-            let formProps = {
-                code: code,
-                description: description
-            }
-            this.$emit('add-record', formProps)
+            this.$emit('add-record', data)
         }
     }
 }

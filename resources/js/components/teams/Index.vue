@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between">
-                <h2>Role List</h2>
+                <h2>Teams</h2>
 
                 <FormAdd v-on:add-record="addRecord" />
             </div>
@@ -39,10 +39,10 @@
                     </div>
                 </b-table-column>
 
-                <b-table-column field="code" label="Code" sortable v-slot="props">
+                <b-table-column field="name" label="Name" sortable v-slot="props">
                     <div class="d-flex px-2 py-2">
                             <span class="badge badge-sm bg-gradient-success">
-                                {{ props.row.code }}
+                                {{ props.row.name }}
                             </span>
                     </div>
                 </b-table-column>
@@ -74,6 +74,7 @@
 
 <script>
 import axios from 'axios'
+// import moment from "moment";
 import FormEdit from "./FormEdit";
 import FormAdd from "./FormAdd";
 
@@ -110,6 +111,11 @@ export default {
     mounted() {
         this.getData()
     },
+    // filters: {
+    //     dateFormat(value) {
+    //         return moment(value).format('LLL')
+    //     }
+    // },
     methods: {
         getFormData() {
             return {
@@ -117,7 +123,7 @@ export default {
             }
         },
         getData() {
-            axios.get('/api/roles')
+            axios.get('/api/teams')
                 .then(response => {
                     this.data = response.data
                     this.setPaginated()
@@ -133,7 +139,7 @@ export default {
         },
         addRecord(newRecord) {
             this.isLoading = true
-            axios.post('/api/roles', newRecord)
+            axios.post('/api/teams', newRecord)
                 .then(response => {
                     if (response.statusText = "OK") {
                         this.setAlert('Запись успешно добавлена!')
@@ -149,7 +155,7 @@ export default {
         },
         editRecord(record) {
             this.isLoading = true
-            axios.put('/api/roles/'+record.id, record)
+            axios.put('/api/teams/'+record.id, record)
                 .then(response => {
                     if (response.statusText = "OK") {
                         this.setAlert('Запись успешно изменена!')
@@ -166,7 +172,7 @@ export default {
         },
         delRecord(rowID) {
             this.isLoading = true
-            axios.delete('/api/roles/'+rowID)
+            axios.delete('/api/teams/'+rowID)
                 .then(response => {
                     if (response.status = 200) {
                         this.setAlert('Запись успешно удалена!')

@@ -1,8 +1,8 @@
 <template>
     <section>
-        <b-button icon-left="plus" type="is-info" v-on:click="isComponentModalActive = true">
-            Add role
-        </b-button>
+        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" v-on:click="isComponentModalActive = true">
+            <i class="fa fa-pencil-square-o sbadge badge-sm bg-gradient-primary color-white text-white px-1 rounded h6" aria-hidden="true"></i>
+        </a>
 
         <b-modal
             v-model="isComponentModalActive"
@@ -14,6 +14,7 @@
             aria-modal>
             <template #default="props">
                 <modal-form
+                    v-bind="formData"
                     @close="props.close"
                     @save-data="saveData"
                 ></modal-form>
@@ -24,17 +25,12 @@
 
 <script>
 const ModalForm = {
-    data() {
-        return {
-            'code': '',
-            'description': ''
-        }
-    },
+    props: ['selected'],
     template: `
         <form action="">
         <div class="modal-card" style="width: auto">
             <header class="modal-card-head">
-                <p class="modal-card-title">Add user role</p>
+                <p class="modal-card-title">Edit ticket status {{ selected.id }}</p>
                 <button
                     type="button"
                     class="delete"
@@ -45,7 +41,7 @@ const ModalForm = {
                 <b-field label="Code">
                     <b-input
                         type="text"
-                        v-model="code"
+                        v-model="selected.code"
                         required>
                     </b-input>
                 </b-field>
@@ -54,7 +50,7 @@ const ModalForm = {
                     <b-input
                         maxlength="200"
                         type="textarea"
-                        v-model="description"
+                        v-model="selected.description"
                         required>
                     </b-input>
                 </b-field>
@@ -63,30 +59,19 @@ const ModalForm = {
             <footer class="modal-card-foot">
                 <b-button
                     label="Close"
-                    @click="$emit('close')" />
+                    @click="$emit('close')"/>
                 <b-button
                     type="is-primary"
                     label="Save"
-                    @click="saveData" />
+                    @click="$emit('save-data', selected), $emit('close')"/>
             </footer>
         </div>
         </form>
-    `,
-    methods: {
-        saveData() {
-            this.$emit('save-data', {
-                code: this.code,
-                description: this.description
-            })
-
-            this.code = ''
-            this.description = ''
-        }
-    },
+    `
 }
 
-// --------------------------------------------------------
 export default {
+    props: ['formData'],
     components: {
         ModalForm
     },
@@ -96,20 +81,16 @@ export default {
         }
     },
     methods: {
-        saveData({code, description}) {
-            this.isComponentModalActive=false
-            let formProps = {
-                code: code,
-                description: description
-            }
-            this.$emit('add-record', formProps)
+        saveData(data) {
+            // this.isComponentModalActive=false
+            this.$emit('edit-record', data)
         }
     }
 }
 </script>
 
 <style scoped>
-    section {
-        display: inline-block;
-    }
+section {
+    display: inline-block;
+}
 </style>

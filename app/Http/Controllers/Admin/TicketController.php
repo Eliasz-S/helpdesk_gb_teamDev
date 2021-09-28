@@ -25,7 +25,7 @@ class TicketController extends Controller
     }
     public function index()
     {
-        return view('admin.tickets.index', [
+        return view('admin.index', [
             'userRole' => $this->getUserRole()
         ]);
     }
@@ -67,7 +67,7 @@ class TicketController extends Controller
             $user->is_enabled = 1;
             $user->user_role_id = 4;
             $statusSave = $user->save();
-            //TODO: Send users a password reset 
+            //TODO: Send users a password reset
 
         } // if account not isset we create it
 

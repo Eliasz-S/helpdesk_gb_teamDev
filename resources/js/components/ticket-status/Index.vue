@@ -2,14 +2,12 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between">
-                <h2>Role List</h2>
+                <h2>Ticket status</h2>
 
-                <FormAdd v-on:add-record="addRecord" />
+                <FormAdd v-on:add-record="addRecord"/>
             </div>
-
             <b-table
                 :data="data"
-
                 :paginated="isPaginated"
                 :per-page="perPage"
                 :current-page.sync="currentPage"
@@ -117,7 +115,7 @@ export default {
             }
         },
         getData() {
-            axios.get('/api/roles')
+            axios.get('/api/ticket-status')
                 .then(response => {
                     this.data = response.data
                     this.setPaginated()
@@ -133,7 +131,7 @@ export default {
         },
         addRecord(newRecord) {
             this.isLoading = true
-            axios.post('/api/roles', newRecord)
+            axios.post('/api/ticket-status', newRecord)
                 .then(response => {
                     if (response.statusText = "OK") {
                         this.setAlert('Запись успешно добавлена!')
@@ -149,7 +147,7 @@ export default {
         },
         editRecord(record) {
             this.isLoading = true
-            axios.put('/api/roles/'+record.id, record)
+            axios.put('/api/ticket-status/'+record.id, record)
                 .then(response => {
                     if (response.statusText = "OK") {
                         this.setAlert('Запись успешно изменена!')
@@ -166,7 +164,7 @@ export default {
         },
         delRecord(rowID) {
             this.isLoading = true
-            axios.delete('/api/roles/'+rowID)
+            axios.delete('/api/ticket-status/'+rowID)
                 .then(response => {
                     if (response.status = 200) {
                         this.setAlert('Запись успешно удалена!')

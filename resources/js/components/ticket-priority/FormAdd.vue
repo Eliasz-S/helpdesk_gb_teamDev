@@ -1,7 +1,7 @@
 <template>
     <section>
         <b-button icon-left="plus" type="is-info" v-on:click="isComponentModalActive = true">
-            Add role
+            Add ticket priority
         </b-button>
 
         <b-modal
@@ -27,14 +27,14 @@ const ModalForm = {
     data() {
         return {
             'code': '',
-            'description': ''
+            'description': '',
         }
     },
     template: `
         <form action="">
         <div class="modal-card" style="width: auto">
             <header class="modal-card-head">
-                <p class="modal-card-title">Add user role</p>
+                <p class="modal-card-title">Add ticket priority</p>
                 <button
                     type="button"
                     class="delete"
@@ -76,7 +76,7 @@ const ModalForm = {
         saveData() {
             this.$emit('save-data', {
                 code: this.code,
-                description: this.description
+                description: this.description,
             })
 
             this.code = ''
@@ -96,13 +96,9 @@ export default {
         }
     },
     methods: {
-        saveData({code, description}) {
+        saveData(data) {
             this.isComponentModalActive=false
-            let formProps = {
-                code: code,
-                description: description
-            }
-            this.$emit('add-record', formProps)
+            this.$emit('add-record', data)
         }
     }
 }

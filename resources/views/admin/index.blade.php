@@ -14,7 +14,7 @@
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ asset('admin/css/styles.css') }}" rel="stylesheet" />
-  <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
+{{--  <link rel="stylesheet" href="{{ asset('css/app.css') }}">--}}
 </head>
 <body class="g-sidenav-show  bg-gray-100">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
@@ -66,6 +66,22 @@
             </a>
           </li>
           <li class="nav-item">
+              <a class="nav-link @if(request()->routeIs('admin.ticket-status.index')) active @endif" @unless(request()->routeIs('admin.ticket-status.index')) href="{{ route('admin.ticket-status.index') }}" @endunless>
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="fa fa-clipboard-list opacity-10 text-primary"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Ticket status</span>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link @if(request()->routeIs('admin.ticket-priority.index')) active @endif" @unless(request()->routeIs('admin.ticket-priority.index')) href="{{ route('admin.ticket-priority.index') }}" @endunless>
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="fa fa-clipboard-list opacity-10 text-primary"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Ticket priority</span>
+              </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link @if(request()->routeIs('admin.users.index')) active @endif" @unless(request()->routeIs('admin.users.index')) href="{{ route('admin.users.index') }}" @endunless>
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="fa fa-users opacity-10 text-primary"></i>
@@ -79,6 +95,14 @@
                       <i class="fa fa-users opacity-10 text-primary"></i>
                   </div>
                   <span class="nav-link-text ms-1">User roles</span>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link @if(request()->routeIs('admin.teams.index')) active @endif" @unless(request()->routeIs('admin.teams.index')) href="{{ route('admin.teams.index') }}" @endunless>
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="fa fa-users opacity-10 text-primary"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Teams</span>
               </a>
           </li>
         @endif
@@ -195,7 +219,7 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{ asset('admin/js/soft-ui-dashboard.min.js?v=1.0.3') }}"></script>
+  <script src="{{ asset('admin/js/soft-ui-dashboard.min.js') }}"></script>
   @stack('js')
 </body>
 
