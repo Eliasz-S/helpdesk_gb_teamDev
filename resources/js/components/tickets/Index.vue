@@ -83,7 +83,7 @@
                             v-on:save-data="editData"
                         />
                         &nbsp; | &nbsp;
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" @click="deleteTicket(props.row.id)">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" @click="deleteMessage(props.row.id)">
                             <i class="fa fa-trash sbadge badge-sm bg-gradient-danger color-white text-white px-1 rounded h6" aria-hidden="true"></i>
                         </a>
                     </b-table-column>
@@ -268,6 +268,16 @@ export default {
                 .finally(() => {
                     this.isLoading = false
                 })
+        },
+        deleteMessage(id){
+            this.$buefy.dialog.confirm({
+                title: 'Deleting ticket',
+                message: 'Are you sure you want to <b>delete</b> your ticket <b>#'+id+' ?</b>',
+                confirmText: 'Delete',
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => this.deleteTicket(id)
+            })
         },
         deleteTicket(id) {
             this.isLoading = true
