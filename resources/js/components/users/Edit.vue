@@ -32,86 +32,84 @@
             }
         },
         template: `
-            <form action="">
-                <div class="modal-card" style="width: auto">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">Edit user data</p>
-                        <button
-                            type="button"
-                            class="delete"
-                            @click="$emit('close')"/>
-                    </header>
+            <div class="modal-card" style="width: auto">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit user data</p>
+                    <button
+                        type="button"
+                        class="delete"
+                        @click="$emit('close')"/>
+                </header>
 
-                    <section class="modal-card-body">
+                <section class="modal-card-body">
 
-                        <b-field label="Login">
-                            <b-input
-                                type="text"
-                                v-model="selected.name"
-                                required>
-                            </b-input>
-                        </b-field>
+                    <b-field horizontal label="Login">
+                        <b-input
+                            type="text"
+                            v-model="selected.name"
+                            required>
+                        </b-input>
+                    </b-field>
 
-                        <b-field label="Email">
-                            <b-input
-                                type="email"
-                                v-model="selected.email"
-                                required>
-                            </b-input>
-                        </b-field>
+                    <b-field horizontal label="Email">
+                        <b-input
+                            type="email"
+                            v-model="selected.email"
+                            required>
+                        </b-input>
+                    </b-field>
 
-                        <b-field label="First Name">
-                            <b-input
-                                type="text"
-                                v-model="selected.first_name">
-                            </b-input>
-                        </b-field>
+                    <b-field horizontal label="First Name">
+                        <b-input
+                            type="text"
+                            v-model="selected.first_name">
+                        </b-input>
+                    </b-field>
 
-                        <b-field label="Last Name">
-                            <b-input
-                                type="text"
-                                v-model="selected.last_name">
-                            </b-input>
-                        </b-field>
+                    <b-field horizontal label="Last Name">
+                        <b-input
+                            type="text"
+                            v-model="selected.last_name">
+                        </b-input>
+                    </b-field>
 
-                        <b-field label="User Role">
-                            <b-select placeholder="Select a role" v-model=selected.user_role_id>
-                                <option
-                                    v-for="role in roleList"
-                                    :value="role.id"
-                                    :key="role.id">
-                                    {{ role.code }}
-                                </option>
-                            </b-select>
-                        </b-field>
+                    <b-field horizontal label="User Role">
+                        <b-select placeholder="Select a role" v-model=selected.user_role_id>
+                            <option
+                                v-for="role in roleList"
+                                :value="role.id"
+                                :key="role.id">
+                                {{ role.code }}
+                            </option>
+                        </b-select>
+                    </b-field>
 
-                        <b-field label="Add to team">
-                            <b-select
-                                multiple
-                                v-model=selectedTeams
-                            >
-                                <option
-                                    v-for="team in teamList"
-                                    :value="team.id"
-                                    :key="team.id">
-                                    {{ team.name }}
-                                </option>
-                            </b-select>
-                        </b-field>
+                    <b-field horizontal label="Add to team">
+                        <b-select
+                            multiple
+                            v-model=selectedTeams
+                        >
+                            <option
+                                v-for="team in teamList"
+                                :value="team.id"
+                                :key="team.id">
+                                {{ team.name }}
+                            </option>
+                        </b-select>
+                    </b-field>
 
-                    </section>
+                </section>
 
-                    <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="$emit('close')" />
-                        <b-button
-                            label="Save"
-                            type="is-primary"
-                            v-on:click="$emit('save-data', selected, selectedTeams), $emit('close')" />
-                    </footer>
-                </div>
-            </form>
+                <footer class="modal-card-foot">
+                    <b-button
+                        label="Close"
+                        @click="$emit('close')" />
+                    <b-button
+                        label="Save"
+                        type="is-primary"
+                        v-on:click="$emit('save-data', selected, selectedTeams), $emit('close')" />
+                </footer>
+            </div>
         `
     }
 
