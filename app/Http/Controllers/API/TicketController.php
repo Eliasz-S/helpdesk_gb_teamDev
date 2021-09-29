@@ -130,6 +130,7 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
+        
         Ticket::find($id)->delete();
     }
 }

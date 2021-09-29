@@ -231,11 +231,11 @@ export default {
                 .then(response => {
                     if (response.statusText = "OK") {
                         this.getTickets()
-                        this.setAlert('Запись успешно изменена!')
+                        this.setAlert('Ticket successfully updated!')
                     }
                 }).catch(error => {
                     this.setAlert(
-                        'Произошла ошибка сохранения. Попробуйте повторить позже!'
+                        'Something went wrong! Try later'
                         ,error
                         ,true
                     )
@@ -276,13 +276,13 @@ export default {
                 .then(response => {
                     this.getTickets()
                     if (response.status = 200) {
-                        this.setAlert('Запись успешно удалена!')
+                        this.setAlert('Ticket successfully deleted!')
                         this.getTickets()
                     }
                 })
                 .catch(error => {
                   this.setAlert(
-                        'Произошла ошибка удаления. Есть связанные записи или сервер не доступен!'
+                        'Something went wrong! Try later'
                         ,error
                         ,true
                     )
