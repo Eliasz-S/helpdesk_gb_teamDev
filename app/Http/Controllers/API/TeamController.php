@@ -17,22 +17,30 @@ class TeamController extends Controller
     public function index()
     {
         $team = \DB::select('
-            select id, name, description
-            from teams
+            select
+                t.id, t.name, t.description
+                ,lt.user_id
+                ,u.name        teamLead
+            from
+                teams                   t
+                left join lead_teams    lt  on  lt.team_id = t.id
+                left join users          u   on  u.id = lt.user_id
+            order by id
         ');
 
         $users = \DB::select('
-            select id, name
-            from users
+            select
+                ut.team_id
+                ,u.id, u.name
+            from
+                user_teams      ut
+                join users      u  on  u.id = ut.user_id
+            order by team_id
         ');
-
-        $teamLeads = LeadTeam::with('user')
-            ->get();
 
         return [
             'teams' => $team,
             'users' => $users,
-            'teamLeads' => $teamLeads
         ];
 
 
@@ -84,25 +92,28 @@ class TeamController extends Controller
         $team->name = $request->get('name');
         $team->description = $request->get('description');
 
-        $team->save();
+        $user_id = $request->get('user_id');
 
-        $lead_id = $request->get('lead_id');
+        if (empty($user_id)) { // user не выбран
+            \DB::table('lead_teams')
+                ->where('team_id', '=', $team->id)
+                ->delete();
+        } else {
+            $leadTeam = \DB::table('lead_teams')->where('team_id', '=', $team->id)->get();
 
-        if (!empty($lead_id)) { //update
-            $lead = LeadTeam::find($lead_id);
-
-            $lead = [
-                'team_id' => $team->id,
-                'user_id' => $request->get('user_id')
-            ];
-        } else { //add
-            $lead = new LeadTeam([
-                'team_id' => $team->id,
-                'user_id' => $request->get('user_id')
-            ]);
+            if ( empty($leadTeam[0]) ) { // нет назначения user_id для team_id в таблице lead_teams
+                \DB::table('lead_teams')->insert([
+                    'team_id' => $team->id
+                    ,'user_id' => $user_id
+                ]);
+            } elseif ($leadTeam[0]->user_id != $user_id) { // ранее уже было назначение и выбран новый user_id
+                \DB::table('lead_teams')
+                    ->where('team_id', '=', $team->id)
+                    ->update(['user_id' => $user_id]);
+            }
         }
 
-        $lead->save();
+        $team->save();
     }
 
     /**
