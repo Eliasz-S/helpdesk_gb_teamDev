@@ -5,13 +5,13 @@
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between">
               <h6>Ticket List</h6>
-
                 <Add v-bind:formProps=getFormProps() v-on:save-data="addNewTicket" />
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
                 <b-table
                     :data="tickets"
+                    :key="tickets.id" v-bind="tickets"
                     :selected.sync="selected"
                     :paginated="isPaginated"
                     :per-page="perPage"
@@ -34,13 +34,14 @@
                     :detail-transition="transitionName"
                     @details-open="(row) => $buefy.toast.open(`Expanded ${row.customer_user.first_name}`)"
                     :show-detail-icon="showDetailIcon"
+                    :mobile-cards="hasMobileCards"
                     class="table align-items-center mb-2">
 
-                    <b-table-column field="id" label="#ID" width="40" numeric v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <b-table-column field="id" searchable centered label="#ID" width="100" v-slot="props" header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         {{ props.row.id }}
                     </b-table-column>
 
-                    <b-table-column field="customer" label="Name" sortable v-slot="props">
+                    <b-table-column field="customer_user.email" label="Name" sortable searchable v-slot="props" header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         <div class="d-flex px-2 py-1">
                             <div style="width:45px;height:36px;">
                                 <img :src="'../admin/img/team-3.jpg'" class="avatar avatar-sm me-3" alt="user1">
@@ -56,16 +57,16 @@
                         </div>
                     </b-table-column>
 
-                    <b-table-column field="subject" label="Subject" sortable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <b-table-column field="subject" label="Subject" sortable searchable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         <p class="text-xs font-weight-bold mb-0">{{ props.row.subject }}</p>
                     </b-table-column>
 
-                    <b-table-column field="priority" label="Priority" sortable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <b-table-column field="ticket_priority.description" label="Priority" sortable searchable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         <span class="badge badge-sm bg-gradient-danger" v-if="props.row.ticket_priority.description == 'high'">{{ props.row.ticket_priority.description }}</span>
                         <span class="badge badge-sm bg-gradient-primary" v-else>{{ props.row.ticket_priority.description }}</span>
                     </b-table-column>
 
-                     <b-table-column field="status" label="Status" sortable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                     <b-table-column field="ticket_status.description" label="Status" sortable searchable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         <span class="badge badge-sm bg-gradient-success" v-if="props.row.ticket_status.description == 'free'">{{ props.row.ticket_status.description }}</span>
                         <span class="badge badge-sm bg-gradient-warning" v-else-if="props.row.ticket_status.description == 'busy'">
                             {{ props.row.ticket_status.description }}
@@ -74,7 +75,7 @@
                         <span class="badge badge-sm bg-gradient-primary" v-else >{{ props.row.ticket_status.description }}</span>
                     </b-table-column>
 
-                    <b-table-column field="created_at" label="Date Of Addition" sortable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    <b-table-column field="created_at" label="Date Of Addition"  sortable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         <span class="text-secondary text-xs font-weight-bold">{{ props.row.created_at | dateFormat }}</span>
                     </b-table-column>
                     <b-table-column  field="id" v-slot="props">
@@ -173,7 +174,7 @@ export default {
             perPage: 10,
             edit: false,
             errored: false,
-            defaultOpenedDetails: [1],
+            defaultOpenedDetails: [],
             showDetailIcon: true,
             useTransition: false,
             isLoading: true,

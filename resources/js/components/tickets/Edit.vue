@@ -27,7 +27,7 @@
     const ModalForm = {
         props: ['selected','statusList','priorityList', 'typeList', 'staffList'],
         template: `
-                <div class="modal-card" style="width: auto">
+                <div class="modal-card">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Edit ticket</p>
                         <button
