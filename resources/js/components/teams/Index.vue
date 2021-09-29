@@ -55,10 +55,10 @@
                 </b-table-column>
 
                 <b-table-column field="teamLead" label="Teamlead" sortable v-slot="props">
-                    <div class="d-flex flex-column px-2 py-2" v-for="team in teamLeads" :key="team.team_id">
-                        <span v-if="team.team_id === props.row.id">
-                            {{ team.user.name }}
-                        </span>
+                    <div class="d-flex px-2 py-3">
+                        <p class="text-xs font-weight-bold mb-0">
+                            {{ props.row.teamLead }}
+                        </p>
                     </div>
                 </b-table-column>
 
@@ -81,7 +81,6 @@
 
 <script>
 import axios from 'axios'
-// import moment from "moment";
 import FormEdit from "./FormEdit";
 import FormAdd from "./FormAdd";
 
@@ -120,26 +119,22 @@ export default {
     mounted() {
         this.getData()
     },
-    // filters: {
-    //     dateFormat(value) {
-    //         return moment(value).format('LLL')
-    //     }
-    // },
     methods: {
         getFormData() {
             return {
                 selected: this.selected,
-                userList: this.users
             }
         },
         getData() {
             axios.get('/api/teams')
                 .then(response => {
                     this.data = response.data.teams
-                    this.users = response.data.users
-                    this.teamLeads = response.data.teamLeads
-                    console.log(response)
                     this.setPaginated()
+
+                    for (const team of this.data) {
+                        team.users = response.data.users.filter(item => item.team_id == team.id)
+                    }
+                    console.log(this.data, response.data.users)
                 })
                 .catch(error => {
                     console.log(error)

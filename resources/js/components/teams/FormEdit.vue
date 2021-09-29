@@ -25,7 +25,7 @@
 
 <script>
 const ModalForm = {
-    props: ['selected', 'userList'],
+    props: ['selected'],
     template: `
         <form action="">
         <div class="modal-card" style="width: auto">
@@ -56,9 +56,9 @@ const ModalForm = {
                 </b-field>
 
                 <b-field label="Teamlead">
-                    <b-select placeholder="Select a teamlead">
+                    <b-select placeholder="Select a teamlead" v-model="selected.user_id">
                         <option
-                            v-for="user in userList"
+                            v-for="user in selected.users"
                             :value="user.id"
                             :key="user.id">
                             {{ user.name }}
@@ -93,7 +93,6 @@ export default {
     },
     methods: {
         saveData(data) {
-            // this.isComponentModalActive=false
             this.$emit('edit-record', data)
         }
     }
