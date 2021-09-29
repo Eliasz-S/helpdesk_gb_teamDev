@@ -9,7 +9,6 @@
 
             <b-table
                 :data="data"
-
                 :paginated="isPaginated"
                 :per-page="perPage"
                 :current-page.sync="currentPage"
@@ -52,6 +51,14 @@
                         <p class="text-xs font-weight-bold mb-0">
                             {{ props.row.description }}
                         </p>
+                    </div>
+                </b-table-column>
+
+                <b-table-column field="teamLead" label="Teamlead" sortable v-slot="props">
+                    <div class="d-flex flex-column px-2 py-2" v-for="team in teamLeads" :key="team.team_id">
+                        <span v-if="team.team_id === props.row.id">
+                            {{ team.user.name }}
+                        </span>
                     </div>
                 </b-table-column>
 
@@ -100,6 +107,8 @@ export default {
 
             selected: {},
             data: [],
+            users: [],
+            teamLeads: [],
 
             isError: false,
             alertTimeout: 15000,
@@ -119,13 +128,17 @@ export default {
     methods: {
         getFormData() {
             return {
-                selected: this.selected
+                selected: this.selected,
+                userList: this.users
             }
         },
         getData() {
             axios.get('/api/teams')
                 .then(response => {
-                    this.data = response.data
+                    this.data = response.data.teams
+                    this.users = response.data.users
+                    this.teamLeads = response.data.teamLeads
+                    console.log(response)
                     this.setPaginated()
                 })
                 .catch(error => {
@@ -155,7 +168,8 @@ export default {
         },
         editRecord(record) {
             this.isLoading = true
-            axios.put('/api/teams/'+record.id, record)
+            console.log(record)
+            axios.put('/api/teams/' + record.id, record)
                 .then(response => {
                     if (response.statusText = "OK") {
                         this.setAlert('Запись успешно изменена!')

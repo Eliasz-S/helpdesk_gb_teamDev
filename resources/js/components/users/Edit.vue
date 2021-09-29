@@ -26,6 +26,11 @@
 <script>
     const ModalForm = {
         props: ['selected', 'roleList', 'teamList'],
+        data() {
+            return {
+                selectedTeams: []
+            }
+        },
         template: `
             <form action="">
                 <div class="modal-card" style="width: auto">
@@ -81,7 +86,10 @@
                         </b-field>
 
                         <b-field label="Add to team">
-                            <b-select placeholder="Select a team" v-model=selected.teamId>
+                            <b-select
+                                multiple
+                                v-model=selectedTeams
+                            >
                                 <option
                                     v-for="team in teamList"
                                     :value="team.id"
@@ -100,7 +108,7 @@
                         <b-button
                             label="Save"
                             type="is-primary"
-                            v-on:click="$emit('save-data', selected), $emit('close')" />
+                            v-on:click="$emit('save-data', selected, selectedTeams), $emit('close')" />
                     </footer>
                 </div>
             </form>
@@ -108,17 +116,18 @@
     }
 
     export default {
-        props: ['formProps'],
         components: {
             ModalForm
         },
+        props: ['formProps'],
         data() {
             return {
                 isComponentModalActive: false
             }
         },
         methods: {
-            editData(selected) {
+            editData(selected, teams) {
+                selected.team = teams
                 this.$emit('save-data', selected)
             }
         }

@@ -26,14 +26,15 @@
 
 <script>
     const ModalForm = {
-        props: ['roleList'],
+        props: ['roleList', 'teamList'],
         data() {
             return {
                 name: '',
                 email: '',
                 first_name: '',
                 last_name: '',
-                user_role_id: 4
+                user_role_id: 4,
+                selectedTeams: []
             }
         },
         template: `
@@ -89,6 +90,20 @@
                             </b-select>
                         </b-field>
 
+                        <b-field label="Add to team">
+                            <b-select
+                                multiple
+                                v-model=selectedTeams
+                            >
+                                <option
+                                    v-for="team in teamList"
+                                    :value="team.id"
+                                    :key="team.id">
+                                    {{ team.name }}
+                                </option>
+                            </b-select>
+                        </b-field>
+
                     </section>
 
                     <footer class="modal-card-foot">
@@ -109,7 +124,8 @@
                     email: this.email,
                     first_name: this.first_name,
                     last_name: this.last_name,
-                    user_role_id: this.user_role_id
+                    user_role_id: this.user_role_id,
+                    team: this.selectedTeams
                 })
 
                 this.name = ''
@@ -117,6 +133,7 @@
                 this.first_name= ''
                 this.last_name= ''
                 this.user_role_id= 4
+                this.selectedTeams = []
             }
         },
     }

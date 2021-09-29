@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\LeadTeam;
 use Illuminate\Http\Request;
 use App\Models\Team;
 
@@ -15,10 +16,26 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return \DB::select('
+        $team = \DB::select('
             select id, name, description
             from teams
         ');
+
+        $users = \DB::select('
+            select id, name
+            from users
+        ');
+
+        $teamLeads = LeadTeam::with('user')
+            ->get();
+
+        return [
+            'teams' => $team,
+            'users' => $users,
+            'teamLeads' => $teamLeads
+        ];
+
+
     }
 
     /**
@@ -29,12 +46,19 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $row = new Team([
+        $team = new Team([
             'name' => $request->get('name'),
             'description' => $request->get('description'),
         ]);
 
-        $row->save();
+        $team->save();
+
+        $lead = new LeadTeam([
+            'team_id' => $team->id,
+            'user_id' => $request->get('user_id')
+        ]);
+
+        $lead->save();
     }
 
     /**
@@ -61,6 +85,24 @@ class TeamController extends Controller
         $team->description = $request->get('description');
 
         $team->save();
+
+        $lead_id = $request->get('lead_id');
+
+        if (!empty($lead_id)) { //update
+            $lead = LeadTeam::find($lead_id);
+
+            $lead = [
+                'team_id' => $team->id,
+                'user_id' => $request->get('user_id')
+            ];
+        } else { //add
+            $lead = new LeadTeam([
+                'team_id' => $team->id,
+                'user_id' => $request->get('user_id')
+            ]);
+        }
+
+        $lead->save();
     }
 
     /**

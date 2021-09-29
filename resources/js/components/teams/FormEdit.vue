@@ -25,7 +25,7 @@
 
 <script>
 const ModalForm = {
-    props: ['selected'],
+    props: ['selected', 'userList'],
     template: `
         <form action="">
         <div class="modal-card" style="width: auto">
@@ -53,6 +53,17 @@ const ModalForm = {
                         v-model="selected.description"
                         required>
                     </b-input>
+                </b-field>
+
+                <b-field label="Teamlead">
+                    <b-select placeholder="Select a teamlead">
+                        <option
+                            v-for="user in userList"
+                            :value="user.id"
+                            :key="user.id">
+                            {{ user.name }}
+                        </option>
+                    </b-select>
                 </b-field>
             </section>
 

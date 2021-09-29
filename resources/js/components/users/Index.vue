@@ -149,7 +149,7 @@ export default {
             }
         },
         setPaginated() {
-            console.log(this.users)
+            //console.log(this.users)
             this.isPaginated = this.users.length > this.perPage
         },
         getUsers() {
@@ -160,7 +160,7 @@ export default {
                 this.users = response.data.users
                 this.roles = response.data.roles
                 this.teams = response.data.teams
-                console.log(response)
+                // console.log(response)
                 this.setPaginated()
               })
               .catch(error => {
@@ -171,6 +171,7 @@ export default {
         },
         editData(selected) {
             this.isLoading = true
+            selected.oldTeam = selected.team
             console.log(selected)
             axios.put(`/api/users/${selected.id}`, selected)
                 .then(response => {

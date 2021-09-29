@@ -23,6 +23,10 @@ class UserController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
+        foreach ($users as $user) {
+            $user->oldTeamList = $user->team;
+        } // сохраняем предыдущее состояние списка команд для дальнейшей проверки
+
         $roles = UserRole::all();
         $teams = Team::all();
 
@@ -42,7 +46,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = new User([
-            'name' => $request->get('namet'),
+            'name' => $request->get('name'),
             'email' => $request->get('email'),
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
@@ -50,6 +54,8 @@ class UserController extends Controller
         ]);
 
         $user->save();
+
+        $user->team()->attach($request->get('team'));
     }
 
     /**
@@ -70,7 +76,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user, Team $team)
+    public function update(Request $request, User $user)
     {
         $user->name = $request->get('name');
         $user->email = $request->get('email');
@@ -79,8 +85,18 @@ class UserController extends Controller
         $user->user_role_id = $request->get('user_role_id');
         $user->is_enabled = $request->get('is_enabled');
 
+        if ($request->get('team') !== $request->get('oldTeamList')) {
+
+            \DB::select("delete from user_teams where user_id = {$user->id}");
+
+            $user->team()->attach($request->get('team'));
+
+        } // проверяем, совпадает ли список групп пользователя с тем, что было до этого. 
+          // Если да - не трогаем таблицу user_teams (с соответствиями юзеров и команд) 
+          // Иначе группы (которые мы выбрали ранее) по данному пользователю затираются всегда, а новые записи мы не передаем, 
+          // в результате чего пользователь остается без групп вообще.
+
         $user->save();
-        $user->team()->attach($request->get('teamId'));
     }
 
     /**
