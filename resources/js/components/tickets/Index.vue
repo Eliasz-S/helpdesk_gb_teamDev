@@ -42,7 +42,7 @@
 
                     <b-table-column field="customer" label="Name" sortable v-slot="props">
                         <div class="d-flex px-2 py-1">
-                            <div>
+                            <div style="width:45px;height:36px;">
                                 <img :src="'../admin/img/team-3.jpg'" class="avatar avatar-sm me-3" alt="user1">
                             </div>
                             <div class="d-flex flex-column justify-content-center">
@@ -77,29 +77,30 @@
                     <b-table-column field="created_at" label="Date Of Addition" sortable centered v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         <span class="text-secondary text-xs font-weight-bold">{{ props.row.created_at | dateFormat }}</span>
                     </b-table-column>
-                    <b-table-column>
-                      <Edit
-                          v-bind:formProps=getFormProps()
-                          v-on:save-data="editData"
-                      />
-                      &nbsp; | &nbsp;
-                      <a href="javascript:;" data-toggle="tooltip" data-original-title="Edit user" class="text-secondary font-weight-bold text-xs">
-                        <i aria-hidden="true" class="fa fa-trash sbadge badge-sm bg-gradient-danger color-white text-white px-1 rounded h6"></i>
-                      </a>
+                    <b-table-column  field="id" v-slot="props">
+                        <Edit
+                            v-bind:formProps=getFormProps()
+                            v-on:save-data="editData"
+                        />
+                        &nbsp; | &nbsp;
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" @click="deleteTicket(props.row.id)">
+                            <i class="fa fa-trash sbadge badge-sm bg-gradient-danger color-white text-white px-1 rounded h6" aria-hidden="true"></i>
+                        </a>
                     </b-table-column>
 
                     <template #detail="props">
-                        <article>
+                        <article v-if="props.row.message">
                             <div class="media" v-if="props.row.ticket_status.description === 'busy'">
                             <div class="media-content">
                                   <div class="content row col-md-12">
                                       <div class="d-flex flex-column justify-content-center col-md-3">
                                         <img :src=" '../admin/img/team-3.jpg'" alt="user1" class="avatar avatar-sm me-3 mb-2">
                                         <h6 class="mb-0 text-sm">Staff: {{ props.row.staff_user.name  }}</h6>
-                                        <p class="text-xs text-secondary mb-0">{{ props.row.staff_user.email }}</p>
                                         <p class="text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
+                                        <p class="text-xs text-secondary mb-0">Status: {{ props.row.ticket_status.description }}</p>
                                       </div>
                                       <div class="form-group col-md-9">
+                                        <p class="has-text-weight-bold mb-2 text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
                                         <textarea class="form-control" rows="3" :placeholder="props.row.message.message"></textarea>
                                       </div>
                                   </div>
@@ -109,11 +110,27 @@
                               <div class="media-content">
                                   <div class="content row col-md-12">
                                       <div class="d-flex flex-column justify-content-center col-md-3">
-                                          <h6 class="mb-0 text-sm">Staff: none</h6>
+                                        <h6 class="mb-0 text-sm">Staff: none</h6>
+                                        <p class="text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
                                         <p class="text-xs text-secondary mb-0">Status: {{ props.row.ticket_status.description }}</p>
                                       </div>
                                       <div class="form-group col-md-9">
+                                        <p class="has-text-weight-bold mb-2 text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
                                         <textarea class="form-control" rows="3" :placeholder="props.row.message.message"></textarea>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                        </article>
+                        <article v-else>
+                            <div class="media">
+                              <div class="media-content">
+                                  <div class="content row col-md-12">
+                                      <div class="d-flex justify-content-left col-md-12">
+                                        <p class="text-xs text-secondary mb-0 mr-2"><span class="has-text-weight-bold text-dark mr-1">Staff:</span> none</p>
+                                        <p class="text-xs text-secondary mb-0 mx-2"><span class="has-text-weight-bold text-dark mr-1">Type:</span> {{ props.row.ticket_type.description }}</p>
+                                        <p class="text-xs text-secondary mb-0 mx-2"><span class="has-text-weight-bold text-dark mr-1">Status:</span> {{ props.row.ticket_status.description }}</p>
+                                        <p class="text-xs text-secondary mb-0 mx-2"><span class="has-text-weight-bold text-dark mr-1">Message:</span>No message</p>
                                       </div>
                                   </div>
                               </div>
@@ -131,8 +148,8 @@
 <script>
 import axios from 'axios'
 import route from '../../route'
-import Edit from '../tickets/Edit.vue'
-import Add from '../tickets/Add.vue'
+import Edit from './Edit.vue'
+import Add from './Add.vue'
 
 var moment = require('moment')
 
@@ -209,27 +226,22 @@ export default {
         },
         editData(selected) {
             this.isLoading = true
-            axios
-                .put(`/api/tickets/${selected.id}`, this.selected)
+            console.log(selected)
+            axios.put(`/api/tickets/${selected.id}`, selected)
                 .then(response => {
-                    this.getTickets()
-                    console.log(response)
                     if (response.statusText = "OK") {
-                        this.setAlert('Ticket updated!')
                         this.getTickets()
+                        this.setAlert('Запись успешно изменена!')
                     }
-                })
-                .catch(error => {
-                    console.log(error)
+                }).catch(error => {
                     this.setAlert(
-                        'Something went wrong! Try later'
+                        'Произошла ошибка сохранения. Попробуйте повторить позже!'
                         ,error
                         ,true
                     )
                 })
                 .finally(() => {
                     this.isLoading = false
-
                 })
         },
         addNewTicket(newTicketData) {
@@ -256,6 +268,26 @@ export default {
                 .finally(() => {
                     this.isLoading = false
                 })
+        },
+        deleteTicket(id) {
+            this.isLoading = true
+            axios
+                .delete(`/api/tickets/${id}`)
+                .then(response => {
+                    this.getTickets()
+                    if (response.status = 200) {
+                        this.setAlert('Запись успешно удалена!')
+                        this.getTickets()
+                    }
+                })
+                .catch(error => {
+                  this.setAlert(
+                        'Произошла ошибка удаления. Есть связанные записи или сервер не доступен!'
+                        ,error
+                        ,true
+                    )
+                })
+                .finally(() => this.isLoading = false)
         },
         setAlert(message, error = null, isError = null) {
             if(error) console.error(error)

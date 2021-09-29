@@ -50,7 +50,7 @@
 
                     <b-field horizontal label="Staff">
                             <b-select placeholder="staff" v-model="staff_id" expanded icon="user-cog">
-                                <option value="0">None</option>
+                                <option value="1">None</option>
                                 <option
                                     v-for="staff in staffList"
                                     :value="staff.id"
@@ -96,8 +96,8 @@
                         </b-field>
                     </b-field>
 
-                    <b-field horizontal label="Message" v-model="message">
-                        <b-input type="textarea" required></b-input>
+                    <b-field horizontal label="Message">
+                        <b-input name="message" required type="textarea" v-model="message"></b-input>
                     </b-field>
                     
                 </section>
@@ -124,8 +124,8 @@
                 })
 
                 this.subject    = ''
-                this.staff_id    = ''
-                this.message     = ''
+                this.staff_id   = ''
+                this.message   = ''
                 this.status_id  = ''
                 this.priority_id= ''
                 this.type_id    = ''
