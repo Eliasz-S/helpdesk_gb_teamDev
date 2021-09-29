@@ -80,6 +80,7 @@ class UserController extends Controller
         $user->is_enabled = $request->get('is_enabled');
 
         $user->save();
+        $user->team()->attach($request->get('teamId'));
     }
 
     /**
