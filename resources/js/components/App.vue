@@ -39,5 +39,11 @@ nav.pagination {
 tr.is-selected td {
     color: $color_black !important;
 }
+input.input {
+    min-width: 100px;
+}
+.b-table .table th {
+    padding: 5px;
+}
 
 </style>

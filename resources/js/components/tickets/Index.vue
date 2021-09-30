@@ -32,7 +32,7 @@
                     detailed
                     detail-key="id"
                     :detail-transition="transitionName"
-                    @details-open="(row) => $buefy.toast.open(`Expanded ${row.customer_user.first_name}`)"
+                    @details-open="(row) => $buefy.toast.open(`Expanded ${row.tickets.id}`)"
                     :show-detail-icon="showDetailIcon"
                     class="table align-items-center mb-2">
 
@@ -54,6 +54,10 @@
                                 <p class="text-xs text-secondary mb-0">{{ props.row.customer_user.email }}</p>
                             </div>
                         </div>
+                    </b-table-column>
+
+                    <b-table-column field="staff_user.name" label="Staff" sortable searchable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        <p class="text-xs font-weight-bold mb-0">{{ props.row.staff_user.name }}</p>
                     </b-table-column>
 
                     <b-table-column field="subject" label="Subject" sortable searchable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
