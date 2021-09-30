@@ -48,6 +48,7 @@ class UserController extends Controller
         $user = new User([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
+            'password' => md5($request->get('email')),
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
             'user_role_id' => $request->get('user_role_id')
@@ -55,7 +56,8 @@ class UserController extends Controller
 
         $user->save();
 
-        $user->team()->attach($request->get('team'));
+        $team = $request->get('team');
+        if (count($team)) $user->team()->attach($team);
     }
 
     /**

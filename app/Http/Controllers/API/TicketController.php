@@ -57,21 +57,19 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, int $userID)
     {
-        //$userID = Auth::user()->id;
-        $userID = $request->get('staff_id');
-        $staffUserID = $request->get('staff_id');
+//        dd($request);
 
         $ticket = new Ticket([
             'subject' => $request->get('subject'),
             'status_id' => $request->get('status_id'),
             'priority_id' => $request->get('priority_id'),
             'type_id' => $request->get('type_id'),
-            'staff_id' => $staffUserID,
+            'staff_id' => $request->get('staff_id'),
             'customer_id' => $userID,
         ]);
-
+dd($request, $userID);
         $ticket->save();
 
         if ($request->get('message')) {

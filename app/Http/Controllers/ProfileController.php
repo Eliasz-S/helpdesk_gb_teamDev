@@ -20,6 +20,7 @@ class ProfileController extends Controller
     {
         $userAuth = \Auth::user()->load('userRole');
         $id = \Auth::user()->id;
+
         $user = User::join('user_roles', 'users.user_role_id', '=', 'user_roles.id')
             ->find($id);
 

@@ -9,9 +9,11 @@
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
+                  <!--                    :key="tickets.id"-->
+                  <!--                    v-bind="tickets"-->
                 <b-table
                     :data="tickets"
-                    :key="tickets.id" v-bind="tickets"
+
                     :selected.sync="selected"
                     :paginated="isPaginated"
                     :per-page="perPage"
@@ -57,7 +59,8 @@
                     </b-table-column>
 
                     <b-table-column field="staff_user.name" label="Staff" sortable searchable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        <p class="text-xs font-weight-bold mb-0">{{ props.row.staff_user.name }}</p>
+                        <p v-if="props.row.staff_user" class="text-xs font-weight-bold mb-0">{{ props.row.staff_user.name }}</p>
+                        <p v-else class="text-xs font-weight-bold mb-0">not assigned</p>
                     </b-table-column>
 
                     <b-table-column field="subject" label="Subject" sortable searchable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -99,20 +102,20 @@
                     <template #detail="props">
                         <article v-if="props.row.message">
                             <div class="media" v-if="props.row.ticket_status.description === 'busy'">
-                            <div class="media-content">
-                                  <div class="content row col-md-12">
-                                      <div class="d-flex flex-column justify-content-center col-md-3">
-                                        <img :src=" '../admin/img/team-3.jpg'" alt="user1" class="avatar avatar-sm me-3 mb-2">
-                                        <h6 class="mb-0 text-sm">Staff: {{ props.row.staff_user.name  }}</h6>
-                                        <p class="text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
-                                        <p class="text-xs text-secondary mb-0">Status: {{ props.row.ticket_status.description }}</p>
+                                <div class="media-content">
+                                      <div class="content row col-md-12">
+                                          <div class="d-flex flex-column justify-content-center col-md-3">
+                                            <img :src=" '../admin/img/team-3.jpg'" alt="user1" class="avatar avatar-sm me-3 mb-2">
+                                            <h6 class="mb-0 text-sm">Staff: {{ props.row.staff_user.name  }}</h6>
+                                            <p class="text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
+                                            <p class="text-xs text-secondary mb-0">Status: {{ props.row.ticket_status.description }}</p>
+                                          </div>
+                                          <div class="form-group col-md-9">
+                                            <p class="has-text-weight-bold mb-2 text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
+                                            <textarea class="form-control" rows="3" :placeholder="props.row.message[0].message"></textarea>
+                                          </div>
                                       </div>
-                                      <div class="form-group col-md-9">
-                                        <p class="has-text-weight-bold mb-2 text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
-                                        <textarea class="form-control" rows="3" :placeholder="props.row.message[0].message"></textarea>
-                                      </div>
-                                  </div>
-                            </div>
+                                </div>
                             </div>
                             <div class="media" v-else>
                               <div class="media-content">
@@ -145,6 +148,7 @@
                             </div>
                         </article>
                     </template>
+
                 </b-table>
               </div>
             </div>
@@ -240,8 +244,7 @@ export default {
             this.isLoading = true
             let url = this.userRole == 'ROLE_CUSTOMER' ? `/api/tickets/${this.userID}` : `/api/tickets`
             axios
-            .get(url)
-            .then(response => {
+            .get(url).then(response => {
                 this.tickets          = response.data.tickets
                 this.status           = response.data.status
                 this.priority         = response.data.priority
@@ -249,8 +252,9 @@ export default {
                 this.staff_user       = response.data.staff_user
                 this.customer_user    = response.data.customer_user
                 this.message          = response.data.message
-                console.log(response)
+
                 this.setPaginated()
+console.log(this.tickets)
             })
             .catch(error => {
                 console.log(error)
@@ -303,10 +307,8 @@ export default {
         },
         addNewTicket(newTicketData) {
             this.isLoading = true
-            axios
-                .post('/api/tickets', newTicketData)
+            axios.post('/api/tickets', newTicketData)
                 .then(response => {
-                    this.getTickets()
                     if (response.statusText = "OK") {
                         this.setAlert('Ticket created!')
                         this.getTickets()
@@ -320,9 +322,7 @@ export default {
                         ,true
                     )
                 })
-                .finally(() => {
-                    this.isLoading = false
-                })
+                .finally(() => this.isLoading = false)
         },
         deleteMessage(id){
             this.$buefy.dialog.confirm({
