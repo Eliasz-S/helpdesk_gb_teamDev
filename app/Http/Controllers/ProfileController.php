@@ -9,12 +9,13 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $user = \Auth::user()->load('userRole');
-
-        return view('admin.profile.index', [
-            'userRole' => $user->userRole->code
-        ]);
+//        $user = \Auth::user()->load('userRole');
+//
+//        return view('admin.profile.index', [
+//            'userRole' => $user->userRole->code
+//        ]);
     }
+
     public function account()
     {
         $userAuth = \Auth::user()->load('userRole');

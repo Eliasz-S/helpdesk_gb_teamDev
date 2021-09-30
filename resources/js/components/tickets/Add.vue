@@ -98,7 +98,7 @@
                     <b-field horizontal label="Message">
                         <b-input name="message" required type="textarea" v-model="message"></b-input>
                     </b-field>
-                    
+
                 </section>
                 <footer class="modal-card-foot">
                     <b-button
@@ -130,8 +130,6 @@
         data() {
             return {
                 isComponentModalActive: false,
-                formProps: {
-                }
             }
         },
         methods: {

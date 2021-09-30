@@ -192,10 +192,22 @@ export default {
 
             isError: false,
             alertTimeout: 15000,
+
+            userID: 0,
+            userRole: ''
         }
     },
     mounted() {
-        this.getTickets()
+        let timerId = setInterval(() => {
+            let auth = document.getElementById('auth')
+            if (auth) {
+                clearInterval(timerId)
+
+                this.userID = auth.getAttribute('data-auth')
+                this.userRole = auth.getAttribute('data-role')
+                this.getTickets()
+            }
+        }, 200)
     },
     filters: {
         dateFormat:
@@ -226,8 +238,9 @@ export default {
         },
         getTickets() {
             this.isLoading = true
+            let url = this.userRole == 'ROLE_CUSTOMER' ? `/api/tickets/${this.userID}` : `/api/tickets`
             axios
-            .get('/api/tickets')
+            .get(url)
             .then(response => {
                 this.tickets          = response.data.tickets
                 this.status           = response.data.status

@@ -1,16 +1,29 @@
 <template>
     <div>
-<!--        <navbar-left></navbar-left>-->
+<!--        <b-breadcrumb :items="items"></b-breadcrumb>-->
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-    // import NavbarLeft from './NavbarLeft'
-
     export default {
-        // components: {
-        //     NavbarLeft,
+        // data() {
+        //     return {
+        //         items: [
+        //             {
+        //                 text: 'Admin',
+        //                 href: '#'
+        //             },
+        //             {
+        //                 text: 'Manage',
+        //                 href: '#'
+        //             },
+        //             {
+        //                 text: 'Library',
+        //                 active: true
+        //             }
+        //         ]
+        //     }
         // },
         mounted() {
 
@@ -36,6 +49,7 @@ nav.pagination {
         background-color: $selectedBg;
     }
 }
+
 tr.is-selected td {
     color: $color_black !important;
 }

@@ -22,7 +22,7 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() // все кроме customer
     {
         $tickets = Ticket::with('ticketStatus')
             ->with('ticketPriority')
@@ -100,9 +100,34 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $userId) // метод для customer
     {
-        //
+        $tickets = Ticket::with('ticketStatus')
+            ->where('tickets.customer_id',$userId)
+            ->with('ticketPriority')
+            ->with('customerUser')
+            ->with('ticketType')
+            ->with('staffUser')
+            ->with('message')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $status = TicketStatus::all();
+        $priority = TicketPriority::all();
+        $customerUser = User::where('user_role_id', '4')->get();
+        $staffUser = User::where('user_role_id', '1')->orWhere('user_role_id', '2')->orWhere('user_role_id', '3')->get();
+        $type = TicketType::all();
+        $message = Message::all();
+
+        return [
+            'tickets' => $tickets,
+            'status' => $status,
+            'priority' => $priority,
+            'staff_user' => $staffUser,
+            'customer_user' => $customerUser,
+            'type' => $type,
+            'message' => $message,
+        ];
     }
 
     /**
@@ -130,7 +155,7 @@ class TicketController extends Controller
      */
     public function destroy($id)
     {
-        
+
         Ticket::find($id)->delete();
     }
 }

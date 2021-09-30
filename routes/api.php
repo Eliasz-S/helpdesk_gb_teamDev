@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\MessageController;
+use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TeamController;
 use App\Http\Controllers\API\TicketController;
@@ -27,11 +28,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Route::middleware('auth:api')->resource('users', 'UserController');
-Route::apiResource('users', UserController::class);
-Route::apiResource('roles', RoleController::class);
 Route::apiResource('tickets', TicketController::class);
 Route::apiResource('ticket-types', TicketTypeController::class);
 Route::apiResource('ticket-status', TicketStatusController::class);
 Route::apiResource('ticket-priority', TicketPriorityController::class);
-Route::apiResource('teams', TeamController::class);
 Route::apiResource('messages', MessageController::class);
+
+Route::apiResource('users', UserController::class);
+Route::apiResource('roles', RoleController::class);
+Route::apiResource('teams', TeamController::class);
+
+Route::apiResource('profile', ProfileController::class);

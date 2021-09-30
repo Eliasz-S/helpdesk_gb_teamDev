@@ -12,8 +12,8 @@
             aria-label="Example Modal"
             aria-modal>
             <template #default="props">
-                <modal-form 
-                    v-bind="formProps" 
+                <modal-form
+                    v-bind="formProps"
                     v-on:save-data="saveData"
                     @close="props.close">
                 </modal-form>
@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
 
-                                <div class="d-flex flex-row p-3 justify-content-end" v-else> 
+                                <div class="d-flex flex-row p-3 justify-content-end" v-else>
                                     <div class="bg-white mr-2 p-3 w-60" style="white-space: pre-wrap;">
                                         <p class="p-2 pr-4 bg-light rounded"><span class="text-muted">{{ message.message }}</span></p>
                                     </div>
@@ -76,8 +76,6 @@
         data() {
             return {
                 isComponentModalActive: false,
-                formProps: {
-                }
             }
         },
         methods: {
