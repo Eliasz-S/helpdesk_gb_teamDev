@@ -25,7 +25,7 @@
 
     @include('layouts.navbar-left')
 
-    <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+    <main class="main-content position-relative mt-1 border-radius-lg ps">
 
         @include('layouts.navbar-top')
 

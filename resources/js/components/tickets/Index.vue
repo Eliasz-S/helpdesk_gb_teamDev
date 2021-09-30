@@ -5,15 +5,13 @@
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between">
               <h6>Ticket List</h6>
-                <Add v-bind:formProps=getTicketForm() v-on:save-data="addNewTicket" />
+                <Add v-bind:formProps=getFormProps() v-on:save-data="addNewTicket" />
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                  <!--                    :key="tickets.id"-->
-                  <!--                    v-bind="tickets"-->
                 <b-table
                     :data="tickets"
-
+                    :key="tickets.id" v-bind="tickets"
                     :selected.sync="selected"
                     :paginated="isPaginated"
                     :per-page="perPage"
@@ -34,8 +32,9 @@
                     detailed
                     detail-key="id"
                     :detail-transition="transitionName"
-                    @details-open="(row) => $buefy.toast.open(`Expanded ${row.tickets.id}`)"
+                    @details-open="(row) => $buefy.toast.open(`Expanded ${row.customer_user.first_name}`)"
                     :show-detail-icon="showDetailIcon"
+                    :mobile-cards="hasMobileCards"
                     class="table align-items-center mb-2">
 
                     <b-table-column field="id" searchable centered label="#ID" width="100" v-slot="props" header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -56,11 +55,6 @@
                                 <p class="text-xs text-secondary mb-0">{{ props.row.customer_user.email }}</p>
                             </div>
                         </div>
-                    </b-table-column>
-
-                    <b-table-column field="staff_user.name" label="Staff" sortable searchable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        <p v-if="props.row.staff_user" class="text-xs font-weight-bold mb-0">{{ props.row.staff_user.name }}</p>
-                        <p v-else class="text-xs font-weight-bold mb-0">not assigned</p>
                     </b-table-column>
 
                     <b-table-column field="subject" label="Subject" sortable searchable v-slot="props"  header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -86,12 +80,8 @@
                     </b-table-column>
                     <b-table-column  field="id" v-slot="props">
                         <Edit
-                            v-bind:formProps=getTicketForm()
+                            v-bind:formProps=getFormProps()
                             v-on:save-data="editData"
-                        />
-                        <Messages
-                            v-bind:formProps=getMessageForm()
-                            v-on:save-data="addMessage"
                         />
                         &nbsp; | &nbsp;
                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" @click="deleteMessage(props.row.id)">
@@ -102,20 +92,20 @@
                     <template #detail="props">
                         <article v-if="props.row.message">
                             <div class="media" v-if="props.row.ticket_status.description === 'busy'">
-                                <div class="media-content">
-                                      <div class="content row col-md-12">
-                                          <div class="d-flex flex-column justify-content-center col-md-3">
-                                            <img :src=" '../admin/img/team-3.jpg'" alt="user1" class="avatar avatar-sm me-3 mb-2">
-                                            <h6 class="mb-0 text-sm">Staff: {{ props.row.staff_user.name  }}</h6>
-                                            <p class="text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
-                                            <p class="text-xs text-secondary mb-0">Status: {{ props.row.ticket_status.description }}</p>
-                                          </div>
-                                          <div class="form-group col-md-9">
-                                            <p class="has-text-weight-bold mb-2 text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
-                                            <textarea class="form-control" rows="3" :placeholder="props.row.message[0].message"></textarea>
-                                          </div>
+                            <div class="media-content">
+                                  <div class="content row col-md-12">
+                                      <div class="d-flex flex-column justify-content-center col-md-3">
+                                        <img :src=" '../admin/img/team-3.jpg'" alt="user1" class="avatar avatar-sm me-3 mb-2">
+                                        <h6 class="mb-0 text-sm">Staff: {{ props.row.staff_user.name  }}</h6>
+                                        <p class="text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
+                                        <p class="text-xs text-secondary mb-0">Status: {{ props.row.ticket_status.description }}</p>
                                       </div>
-                                </div>
+                                      <div class="form-group col-md-9">
+                                        <p class="has-text-weight-bold mb-2 text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
+                                        <textarea class="form-control" rows="3" :placeholder="props.row.message.message"></textarea>
+                                      </div>
+                                  </div>
+                            </div>
                             </div>
                             <div class="media" v-else>
                               <div class="media-content">
@@ -148,7 +138,6 @@
                             </div>
                         </article>
                     </template>
-
                 </b-table>
               </div>
             </div>
@@ -162,7 +151,6 @@ import axios from 'axios'
 import route from '../../route'
 import Edit from './Edit.vue'
 import Add from './Add.vue'
-import Messages from './Messages.vue'
 
 var moment = require('moment')
 
@@ -174,8 +162,6 @@ export default {
             priority: [],
             type: [],
             staff_user: [],
-            customer_user: [],
-            message: [],
             selected: {},
             isPaginated: true,
             isPaginationSimple: false,
@@ -196,22 +182,10 @@ export default {
 
             isError: false,
             alertTimeout: 15000,
-
-            userID: 0,
-            userRole: ''
         }
     },
     mounted() {
-        let timerId = setInterval(() => {
-            let auth = document.getElementById('auth')
-            if (auth) {
-                clearInterval(timerId)
-
-                this.userID = auth.getAttribute('data-auth')
-                this.userRole = auth.getAttribute('data-role')
-                this.getTickets()
-            }
-        }, 200)
+        this.getTickets()
     },
     filters: {
         dateFormat:
@@ -221,40 +195,29 @@ export default {
             }
     },
     methods: {
-        getTicketForm() {
+        getFormProps() {
             return {
                 selected: this.selected,
                 statusList: this.status,
                 priorityList: this.priority,
                 typeList: this.type,
                 staffList: this.staff_user,
-                message: this.message
-            }
-        },
-        getMessageForm() {
-            return {
-                selected: this.selected,
-                message: this.message
             }
         },
         setPaginated() {
             this.isPaginated = this.tickets.length > this.perPage
         },
         getTickets() {
-            this.isLoading = true
-            let url = this.userRole == 'ROLE_CUSTOMER' ? `/api/tickets/${this.userID}` : `/api/tickets`
             axios
-            .get(url).then(response => {
-                this.tickets          = response.data.tickets
-                this.status           = response.data.status
-                this.priority         = response.data.priority
-                this.type             = response.data.type
-                this.staff_user       = response.data.staff_user
-                this.customer_user    = response.data.customer_user
-                this.message          = response.data.message
-
-                this.setPaginated()
-console.log(this.tickets)
+            .get('/api/tickets')
+            .then(response => {
+              this.tickets = response.data.tickets
+              this.status = response.data.status
+              this.priority = response.data.priority
+              this.type = response.data.type
+              this.staff_user = response.data.staff_user
+              this.customer_user = response.data.customer_user
+              this.setPaginated()
             })
             .catch(error => {
                 console.log(error)
@@ -264,6 +227,7 @@ console.log(this.tickets)
         },
         editData(selected) {
             this.isLoading = true
+            console.log(selected)
             axios.put(`/api/tickets/${selected.id}`, selected)
                 .then(response => {
                     if (response.statusText = "OK") {
@@ -281,34 +245,14 @@ console.log(this.tickets)
                     this.isLoading = false
                 })
         },
-        getMessages(selected) {
-            axios.get(`/api/messages/67`)
-            .then(response => {
-                this.message = response.data.message
-            })
-            .catch(error => {
-                console.log(error)
-                this.errored = true
-            })
-        },
-        addMessage(newMessageData) {
-            axios.post('/api/messages', newMessageData)
-                .then(response => {
-                        this.setAlert('Ticket successfully updated!')
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.setAlert(
-                        'Something went wrong! Try later'
-                        ,error
-                        ,true
-                    )
-                })
-        },
         addNewTicket(newTicketData) {
+            console.log(newTicketData)
             this.isLoading = true
-            axios.post('/api/tickets', newTicketData)
+            axios
+                .post('/api/tickets', newTicketData)
                 .then(response => {
+                    this.getTickets()
+                    console.log(response)
                     if (response.statusText = "OK") {
                         this.setAlert('Ticket created!')
                         this.getTickets()
@@ -322,7 +266,9 @@ console.log(this.tickets)
                         ,true
                     )
                 })
-                .finally(() => this.isLoading = false)
+                .finally(() => {
+                    this.isLoading = false
+                })
         },
         deleteMessage(id){
             this.$buefy.dialog.confirm({
@@ -367,8 +313,7 @@ console.log(this.tickets)
     },
     components: {
         Edit,
-        Add,
-        Messages
+        Add
     },
     computed: {
         transitionName() {

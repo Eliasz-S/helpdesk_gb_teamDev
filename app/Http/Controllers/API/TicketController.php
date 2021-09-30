@@ -22,7 +22,7 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() // все кроме customer
+    public function index()
     {
         $tickets = Ticket::with('ticketStatus')
             ->with('ticketPriority')
@@ -57,19 +57,21 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, int $userID)
+    public function store(Request $request)
     {
-//        dd($request);
+        //$userID = Auth::user()->id;
+        $userID = $request->get('staff_id');
+        $staffUserID = $request->get('staff_id');
 
         $ticket = new Ticket([
             'subject' => $request->get('subject'),
             'status_id' => $request->get('status_id'),
             'priority_id' => $request->get('priority_id'),
             'type_id' => $request->get('type_id'),
-            'staff_id' => $request->get('staff_id'),
+            'staff_id' => $staffUserID,
             'customer_id' => $userID,
         ]);
-dd($request, $userID);
+
         $ticket->save();
 
         if ($request->get('message')) {
@@ -98,34 +100,9 @@ dd($request, $userID);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(int $userId) // метод для customer
+    public function show($id)
     {
-        $tickets = Ticket::with('ticketStatus')
-            ->where('tickets.customer_id',$userId)
-            ->with('ticketPriority')
-            ->with('customerUser')
-            ->with('ticketType')
-            ->with('staffUser')
-            ->with('message')
-            ->orderBy('id', 'desc')
-            ->get();
-
-        $status = TicketStatus::all();
-        $priority = TicketPriority::all();
-        $customerUser = User::where('user_role_id', '4')->get();
-        $staffUser = User::where('user_role_id', '1')->orWhere('user_role_id', '2')->orWhere('user_role_id', '3')->get();
-        $type = TicketType::all();
-        $message = Message::all();
-
-        return [
-            'tickets' => $tickets,
-            'status' => $status,
-            'priority' => $priority,
-            'staff_user' => $staffUser,
-            'customer_user' => $customerUser,
-            'type' => $type,
-            'message' => $message,
-        ];
+        //
     }
 
     /**
