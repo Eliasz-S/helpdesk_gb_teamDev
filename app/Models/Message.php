@@ -10,7 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Message extends Model
 {
     use HasFactory;
-    public function message(): HasMany
+    public function message(): BelongsTo
+    {
+        return $this->belongsTo(Ticket::class, 'ticket_id', 'id');
+    }
+    public function lastMessage(): HasMany
     {
         return $this->hasMany(Ticket::class, 'ticket_id', 'id');
     }

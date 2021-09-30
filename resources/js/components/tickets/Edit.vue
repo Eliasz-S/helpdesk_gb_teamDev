@@ -15,8 +15,7 @@
                 <modal-form 
                     v-bind="formProps" 
                     v-on:save-data="editData" 
-                    @close="props.close"
-                >
+                    @close="props.close">
                 </modal-form>
             </template>
         </b-modal>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TeamController;
 use App\Http\Controllers\API\TicketController;
@@ -33,3 +34,4 @@ Route::apiResource('ticket-types', TicketTypeController::class);
 Route::apiResource('ticket-status', TicketStatusController::class);
 Route::apiResource('ticket-priority', TicketPriorityController::class);
 Route::apiResource('teams', TeamController::class);
+Route::apiResource('messages', MessageController::class);

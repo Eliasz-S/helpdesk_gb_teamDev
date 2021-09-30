@@ -52,7 +52,11 @@ class Ticket extends Model
     {
         return $this->belongsTo(TicketType::class, 'type_id', 'id');
     }
-    public function message(): BelongsTo
+    public function message(): HasMany
+    {
+        return $this->hasMany(Message::class, 'ticket_id', 'id');
+    }
+    public function lastMessage(): BelongsTo
     {
         return $this->belongsTo(Message::class, 'id', 'ticket_id');
     }

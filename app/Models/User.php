@@ -49,24 +49,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function userRole() : BelongsTo
+    public function userRole(): BelongsTo
     {
         return $this->belongsTo(UserRole::class, 'user_role_id', 'id');
     }
 
-    public function ticket() : HasMany
+    public function ticket(): HasMany
     {
         return $this->hasMany(Ticket::class, 'customer_id', 'id');
         return $this->hasMany(Ticket::class, 'staff_id', 'id');
     }
 
-    public function team() : BelongsToMany
+    public function team(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'user_teams', 'user_id', 'team_id');
     }
 
-    public function leadTeam() : BelongsTo
+    public function leadTeam(): BelongsTo
     {
         return $this->belongsTo(LeadTeam::class);
+    }
+    public function message(): HasMany
+    {
+        return $this->hasMany(Message::class, 'user_id', 'id');
+        return $this->hasMany(Message::class, 'created_by', 'id');
     }
 }

@@ -16,8 +16,7 @@
                 <modal-form 
                     v-bind="formProps" 
                     v-on:save-data="saveData" 
-                    @close="props.close"
-                >
+                    @close="props.close">
                 </modal-form>
             </template>
         </b-modal>
@@ -116,19 +115,9 @@
             saveData() {
                 this.$emit('save-data', {
                     subject: this.subject,
-                    staff_id: this.staff_id,
-                    priority_id: this.priority_id,
-                    type_id: this.type_id,
-                    message: this.message,
-                    status_id: this.status_id
+                    message: this.message
                 })
-
-                this.subject    = ''
-                this.staff_id   = ''
-                this.message   = ''
-                this.status_id  = ''
-                this.priority_id= ''
-                this.type_id    = ''
+                this.message    = ''
             }
         },
     }

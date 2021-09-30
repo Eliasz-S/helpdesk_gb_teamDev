@@ -5,7 +5,7 @@
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between">
               <h6>Ticket List</h6>
-                <Add v-bind:formProps=getFormProps() v-on:save-data="addNewTicket" />
+                <Add v-bind:formProps=getTicketForm() v-on:save-data="addNewTicket" />
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -34,7 +34,6 @@
                     :detail-transition="transitionName"
                     @details-open="(row) => $buefy.toast.open(`Expanded ${row.customer_user.first_name}`)"
                     :show-detail-icon="showDetailIcon"
-                    :mobile-cards="hasMobileCards"
                     class="table align-items-center mb-2">
 
                     <b-table-column field="id" searchable centered label="#ID" width="100" v-slot="props" header-class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -80,8 +79,12 @@
                     </b-table-column>
                     <b-table-column  field="id" v-slot="props">
                         <Edit
-                            v-bind:formProps=getFormProps()
+                            v-bind:formProps=getTicketForm()
                             v-on:save-data="editData"
+                        />
+                        <Messages
+                            v-bind:formProps=getMessageForm()
+                            v-on:save-data="addMessage"
                         />
                         &nbsp; | &nbsp;
                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" @click="deleteMessage(props.row.id)">
@@ -102,7 +105,7 @@
                                       </div>
                                       <div class="form-group col-md-9">
                                         <p class="has-text-weight-bold mb-2 text-xs text-secondary mb-0">Type: {{ props.row.ticket_type.description }}</p>
-                                        <textarea class="form-control" rows="3" :placeholder="props.row.message.message"></textarea>
+                                        <textarea class="form-control" rows="3" :placeholder="props.row.message[0].message"></textarea>
                                       </div>
                                   </div>
                             </div>
@@ -151,6 +154,7 @@ import axios from 'axios'
 import route from '../../route'
 import Edit from './Edit.vue'
 import Add from './Add.vue'
+import Messages from './Messages.vue'
 
 var moment = require('moment')
 
@@ -162,6 +166,8 @@ export default {
             priority: [],
             type: [],
             staff_user: [],
+            customer_user: [],
+            message: [],
             selected: {},
             isPaginated: true,
             isPaginationSimple: false,
@@ -195,29 +201,39 @@ export default {
             }
     },
     methods: {
-        getFormProps() {
+        getTicketForm() {
             return {
                 selected: this.selected,
                 statusList: this.status,
                 priorityList: this.priority,
                 typeList: this.type,
                 staffList: this.staff_user,
+                message: this.message
+            }
+        },
+        getMessageForm() {
+            return {
+                selected: this.selected,
+                message: this.message
             }
         },
         setPaginated() {
             this.isPaginated = this.tickets.length > this.perPage
         },
         getTickets() {
+            this.isLoading = true
             axios
             .get('/api/tickets')
             .then(response => {
-              this.tickets = response.data.tickets
-              this.status = response.data.status
-              this.priority = response.data.priority
-              this.type = response.data.type
-              this.staff_user = response.data.staff_user
-              this.customer_user = response.data.customer_user
-              this.setPaginated()
+                this.tickets          = response.data.tickets
+                this.status           = response.data.status
+                this.priority         = response.data.priority
+                this.type             = response.data.type
+                this.staff_user       = response.data.staff_user
+                this.customer_user    = response.data.customer_user
+                this.message          = response.data.message
+                console.log(response)
+                this.setPaginated()
             })
             .catch(error => {
                 console.log(error)
@@ -227,7 +243,6 @@ export default {
         },
         editData(selected) {
             this.isLoading = true
-            console.log(selected)
             axios.put(`/api/tickets/${selected.id}`, selected)
                 .then(response => {
                     if (response.statusText = "OK") {
@@ -245,14 +260,36 @@ export default {
                     this.isLoading = false
                 })
         },
+        getMessages(selected) {
+            axios.get(`/api/messages/67`)
+            .then(response => {
+                this.message = response.data.message
+            })
+            .catch(error => {
+                console.log(error)
+                this.errored = true
+            })
+        },
+        addMessage(newMessageData) {
+            axios.post('/api/messages', newMessageData)
+                .then(response => {
+                        this.setAlert('Ticket successfully updated!')
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.setAlert(
+                        'Something went wrong! Try later'
+                        ,error
+                        ,true
+                    )
+                })
+        },
         addNewTicket(newTicketData) {
-            console.log(newTicketData)
             this.isLoading = true
             axios
                 .post('/api/tickets', newTicketData)
                 .then(response => {
                     this.getTickets()
-                    console.log(response)
                     if (response.statusText = "OK") {
                         this.setAlert('Ticket created!')
                         this.getTickets()
@@ -313,7 +350,8 @@ export default {
     },
     components: {
         Edit,
-        Add
+        Add,
+        Messages
     },
     computed: {
         transitionName() {
