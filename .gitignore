@@ -13,3 +13,16 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+vetur.config.js
+docker-compose.yml
+
+*.map
+
+public/js/app.js
+public/js/vendor.js
+public/js/manifest.js
+public/css/app.css
+
+public/mix-manifest.json
+
+package-lock.json
